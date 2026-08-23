@@ -274,7 +274,7 @@
 
   /* ---------- Print ---------- */
   @media print{
-    header,.header-tools,.entry-head .acts,.tools,#entryForm,.section-head .btn,#addEntryBtn,.client-bar .spacer,footer .note,#toast,.modal-back,#quickSection{display:none !important}
+    header,.header-tools,.entry-head .acts,.tools,#entryForm,.section-head .btn,#addEntryBtn,.client-bar .spacer,footer .note,#toast,.modal-back,#quickSection,#dashSection,#backupReminder{display:none !important}
     body{background:#fff}
     .card{box-shadow:none;border:1px solid #ccc;break-inside:avoid}
     .entry{break-inside:avoid}
@@ -343,6 +343,50 @@
   html[data-night="on"] #nightBtn{background:rgba(255,140,80,.30);border-color:rgba(255,140,80,.5)}
   html[data-night="on"] .lead-gate{background:#0b0603}
   html[data-night="on"] body{filter:brightness(.9)}
+
+  /* ---------- Milestones ---------- */
+  .ms-card{background:var(--surface);border-radius:16px;padding:20px;max-width:540px;width:100%}
+  .ms-head{display:flex;align-items:center;gap:14px;margin-bottom:14px}
+  .ms-head h3{font-size:18px}
+  .ms-head .sub{color:var(--muted);font-size:13px}
+  .ms-next{display:flex;gap:12px;align-items:center;background:linear-gradient(120deg,var(--accent-soft),var(--surface-2));border:1px solid var(--border);border-radius:12px;padding:14px;margin-bottom:8px}
+  .ms-next .ms-ico{font-size:28px;flex:none}
+  .ms-next .lbl{font-size:11px;text-transform:uppercase;letter-spacing:.05em;color:var(--accent);font-weight:700}
+  .ms-next .ms-t{font-size:15px;font-weight:700}
+  .ms-next .ms-d{font-size:12.5px;color:var(--muted)}
+  .ms-sec{font-size:11px;text-transform:uppercase;letter-spacing:.05em;color:var(--muted);font-weight:700;margin:16px 0 4px}
+  .ms-row{display:flex;gap:12px;align-items:center;padding:9px 0;border-top:1px solid var(--border)}
+  .ms-row .ms-ico{font-size:20px;width:26px;text-align:center;flex:none}
+  .ms-row .ms-t{font-size:14px;font-weight:600}
+  .ms-row .ms-d{font-size:12px;color:var(--muted)}
+  .ms-row .ms-check{margin-left:auto;color:var(--ok);font-weight:800;flex:none}
+  .ms-row.locked{opacity:.5}
+  .ms-row.locked .ms-check{color:var(--muted);font-weight:600;font-size:11px}
+
+  /* ---------- Today dashboard ---------- */
+  .dash{padding:16px 18px}
+  .dash-tiles{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}
+  .dash-tile{background:var(--surface-2);border:1px solid var(--border);border-radius:12px;padding:12px 8px;text-align:center}
+  .dash-tile .v{font-size:20px;font-weight:800;letter-spacing:-.02em}
+  .dash-tile .l{font-size:10.5px;color:var(--muted);text-transform:uppercase;letter-spacing:.04em;font-weight:600;margin-top:3px}
+  .dash-pred{margin-top:12px;background:linear-gradient(120deg,var(--accent-soft),var(--surface-2));border:1px solid var(--border);border-radius:12px;padding:11px 14px;font-size:13.5px;display:flex;align-items:center;gap:10px}
+  .dash-pred b{color:var(--text)}
+  .dash-tl{margin-top:14px}
+  .dash-tl h4{font-size:11px;text-transform:uppercase;letter-spacing:.05em;color:var(--muted);margin:0 0 6px;font-weight:700}
+  .tl-item{display:flex;gap:10px;align-items:baseline;padding:7px 0;border-top:1px solid var(--border);font-size:13.5px}
+  .tl-item .t{color:var(--muted);width:118px;flex:none;font-variant-numeric:tabular-nums}
+  .tl-item .ic{width:20px;flex:none;text-align:center}
+  .tl-item .dur{margin-left:auto;color:var(--muted);flex:none}
+  .dash-empty{color:var(--muted);font-size:13px;padding:8px 0}
+  @media(max-width:560px){.dash-tiles{grid-template-columns:repeat(2,1fr)}.tl-item .t{width:96px}}
+
+  /* ---------- Backup reminder ---------- */
+  .backup-bar{display:flex;align-items:center;gap:12px;background:#fff4e5;border:1px solid #f0c987;color:#5a3d00;border-radius:12px;padding:11px 14px;margin-bottom:16px;font-size:13.5px;flex-wrap:wrap}
+  :root:not([data-theme="light"]) .backup-bar{background:#2a1f0a;border-color:#5a4522;color:#e9c88a}
+  html[data-theme="dark"] .backup-bar{background:#2a1f0a;border-color:#5a4522;color:#e9c88a}
+  html[data-night="on"] .backup-bar{background:#241206;border-color:#5a2f18;color:#e0a06a}
+  .backup-bar .grow{margin-left:auto;display:flex;gap:8px}
+  .pdur{text-align:center;font-size:13px;color:var(--muted);margin-top:10px;font-weight:600}
 </style>
 </head>
 <body>
@@ -382,9 +426,9 @@
     </div>
     <div class="header-tools">
       <div class="client-select">
-        <select id="clientSelect" title="Select client"></select>
-        <button class="icon-btn" id="editClientBtn" title="Edit client">✎</button>
-        <button class="icon-btn" id="newClientBtn" title="Add client">＋</button>
+        <select id="clientSelect" title="Select baby"></select>
+        <button class="icon-btn" id="editClientBtn" title="Edit baby profile">✎</button>
+        <button class="icon-btn" id="newClientBtn" title="Add baby profile">＋</button>
       </div>
       <button class="icon-btn" id="noiseBtn" title="Soothing sounds">🔊</button>
       <button class="icon-btn" id="nightBtn" title="Night mode (dim &amp; red-tinted for 3am)">🕯️</button>
@@ -399,9 +443,18 @@
   <!-- Client bar -->
   <div id="clientBar"></div>
 
+  <!-- Backup reminder -->
+  <div id="backupReminder"></div>
+
   <!-- Quick one-tap log -->
   <div class="section" id="quickSection">
     <div class="card quick" id="quickLog"></div>
+  </div>
+
+  <!-- Today dashboard -->
+  <div class="section" id="dashSection">
+    <div class="section-head"><h2>Today</h2><span id="dashDate" style="font-size:13px;color:var(--muted)"></span></div>
+    <div class="card dash" id="dashCard"></div>
   </div>
 
   <!-- Add entry button + form -->
@@ -445,7 +498,7 @@
 
   <!-- Summary -->
   <div class="section" id="summarySection">
-    <div class="section-head"><h2>Summary (averages)</h2><div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap"><span id="daysLogged" style="font-size:13px;color:var(--muted)"></span><button class="btn btn-sm btn-primary" id="weekBtn">📊 Weekly summary</button></div></div>
+    <div class="section-head"><h2>Summary (averages)</h2><div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap"><span id="daysLogged" style="font-size:13px;color:var(--muted)"></span><button class="btn btn-sm" id="msBtn">🏅 Milestones</button><button class="btn btn-sm btn-primary" id="weekBtn">📊 Weekly summary</button></div></div>
     <div class="stats" id="statCards"></div>
     <div class="ref-note" id="refNote"></div>
     <div class="card chart-wrap" id="chartCard" style="margin-top:12px">
@@ -484,16 +537,16 @@
 <!-- Client modal -->
 <div class="modal-back" id="clientModal">
   <div class="modal">
-    <h3 id="clientModalTitle">Add client</h3>
+    <h3 id="clientModalTitle">Add baby profile</h3>
     <div class="form-grid">
-      <label class="field">Name / child's name
+      <label class="field">Baby's name
         <input type="text" id="cName" placeholder="e.g. Baby Noah">
       </label>
       <label class="field">Date of birth <span style="font-weight:500">(optional: shows age & guidance)</span>
         <input type="date" id="cDob">
       </label>
       <label class="field">Notes <span style="font-weight:500">(optional)</span>
-        <textarea id="cNotes" rows="2" placeholder="Goals, background, parent contact…"></textarea>
+        <textarea id="cNotes" rows="2" placeholder="Birth weight, notes, anything to remember…"></textarea>
       </label>
     </div>
     <div class="modal-actions">
@@ -513,6 +566,34 @@
       <button class="btn btn-primary" id="weekCloseBtn">Done</button>
     </div>
     <p style="font-size:11.5px;color:var(--muted);text-align:center;margin:12px 0 0">📸 Screenshot this to send to your consultant.</p>
+  </div>
+</div>
+
+<!-- Add past sleep modal -->
+<div class="modal-back" id="pastModal">
+  <div class="modal" style="max-width:400px">
+    <h3>Add a past sleep</h3>
+    <p style="font-size:13px;color:var(--muted);margin:-8px 0 14px">Catch up on a nap or night you didn't log at the time.</p>
+    <div class="form-grid" style="grid-template-columns:1fr 1fr">
+      <label class="field">Date<input type="date" id="pDate"></label>
+      <label class="field">Type<select id="pType"><option value="nap">☀️ Nap</option><option value="night">🌙 Night</option></select></label>
+      <label class="field">Fell asleep<input type="time" id="pStart"></label>
+      <label class="field">Woke up<input type="time" id="pEnd"></label>
+    </div>
+    <div class="pdur" id="pDur"></div>
+    <div class="modal-actions">
+      <button class="btn" id="pastCancel">Cancel</button>
+      <button class="btn btn-primary" id="pastSave">Add sleep</button>
+    </div>
+  </div>
+</div>
+
+<!-- Milestones modal -->
+<div class="modal-back" id="msModal">
+  <div class="modal" style="max-width:540px">
+    <div id="msReport"></div>
+    <div class="modal-actions"><button class="btn btn-primary" id="msCloseBtn">Done</button></div>
+    <p style="font-size:11.5px;color:var(--muted);text-align:center;margin:12px 0 0">📸 Screenshot to celebrate and share.</p>
   </div>
 </div>
 
@@ -566,6 +647,7 @@ if(!state.settings.dayGroup)state.settings.dayGroup="05:00";   // which calendar
 if(!state.settings.theme)state.settings.theme="light";
 if(!state.settings.night)state.settings.night="off";
 state.lastWake=state.lastWake||{};
+state.msSeen=state.msSeen||{};
 
 function load(){
   try{var s=JSON.parse(localStorage.getItem(STORE));if(s&&s.clients)return s;}catch(e){}
@@ -617,25 +699,56 @@ function lastWakeFor(cid){
   }
   return null;
 }
+// Personalised nap prediction: learns this baby's own recent wake windows from the logs,
+// falls back to the age guide until there's enough data. General guidance, not medical advice.
+function recentWakeWindows(cid){
+  var arr=(state.entries[cid]||[]).slice().sort(function(a,b){return a.date<b.date?1:-1;}).slice(0,14);
+  var ws=toMin(state.settings.dayStart)||720;
+  var out=[];
+  arr.forEach(function(e){
+    var ps=(e.periods||[]).filter(function(p){return p.start&&p.end;}).map(function(p){
+      var s=toMin(p.start),en=toMin(p.end);if(en<=s)en+=1440;
+      var off=(((s-ws)%1440)+1440)%1440;return {off:off,offEnd:off+(en-s)};
+    }).sort(function(a,b){return a.off-b.off;});
+    for(var i=1;i<ps.length;i++){var gap=ps[i].off-ps[i-1].offEnd;if(gap>15&&gap<600)out.push(gap);}
+  });
+  return out;
+}
+function predictNextSleep(c){
+  var ww=wakeWindowFor(c.dob);if(!ww)return null;
+  var samples=recentWakeWindows(c.id),n=samples.length,center,basis;
+  if(n>=3){
+    var g=samples.slice().sort(function(a,b){return a-b;});var med=g[Math.floor(g.length/2)];
+    center=Math.max(ww.lo-20,Math.min(ww.hi+45,med));
+    basis="learned from "+esc(firstName(c.name))+"’s last "+n+" wake windows";
+  }else{
+    center=Math.round((ww.lo+ww.hi)/2);
+    basis="age guide (log a few naps to personalise)";
+  }
+  var isBed=(new Date()).getHours()>=17;   // evenings use a longer wake window, like a real routine
+  if(isBed)center=Math.max(center,ww.hi);
+  return {center:center,basis:basis,n:n,isBed:isBed};
+}
 function coachHTML(c){
-  if(!c.dob) return '<div class="coach coach-hint" id="coachAddDob">🕑 Add a birth date to get personalised nap-timing</div>';
-  var ww=wakeWindowFor(c.dob);
-  if(!ww) return '';
+  if(!c.dob) return '<div class="coach coach-hint" id="coachAddDob">🎯 Add a birth date to get personalised nap timing</div>';
+  var p=predictNextSleep(c);if(!p) return '';
+  var label=p.isBed?"🌙 Bedtime":"🎯 Next nap";
   var lw=lastWakeFor(c.id),now=Date.now();
   if(lw){
     var awakeMin=Math.floor((now-lw.getTime())/60000);if(awakeMin<0)awakeMin=0;
-    if(awakeMin < ww.hi+120){
-      var loT=new Date(lw.getTime()+ww.lo*60000),hiT=new Date(lw.getTime()+ww.hi*60000);
+    if(awakeMin < p.center+150){
+      var spread=15;
+      var loT=new Date(lw.getTime()+(p.center-spread)*60000),hiT=new Date(lw.getTime()+(p.center+spread)*60000);
       var untilLo=Math.round((loT.getTime()-now)/60000);
-      var pct=Math.min(100,Math.round(awakeMin/ww.hi*100));
+      var pct=Math.min(100,Math.round(awakeMin/p.center*100));
       var msg=untilLo>0?("in ~"+fmtMinShort(untilLo)):"now, watch for sleepy cues";
       return '<div class="coach">'+
-        '<div class="coach-top"><span>🕑 Next nap window</span><b>'+to12(loT.getHours()*60+loT.getMinutes())+'–'+to12(hiT.getHours()*60+hiT.getMinutes())+'</b></div>'+
+        '<div class="coach-top"><span>'+label+' predicted</span><b>'+to12(loT.getHours()*60+loT.getMinutes())+'–'+to12(hiT.getHours()*60+hiT.getMinutes())+'</b></div>'+
         '<div class="coach-bar"><div class="coach-fill" style="width:'+pct+'%"></div></div>'+
-        '<div class="coach-sub">Awake '+fmtMinShort(awakeMin)+' · '+msg+' · window ~'+fmtWW(ww)+'</div></div>';
+        '<div class="coach-sub">Awake '+fmtMinShort(awakeMin)+' · '+msg+' · '+p.basis+'</div></div>';
     }
   }
-  return '<div class="coach"><div class="coach-top"><span>🕑 Awake window at this age</span><b>~'+fmtWW(ww)+'</b></div><div class="coach-sub">Tap “Fell asleep” when you spot sleepy cues.</div></div>';
+  return '<div class="coach"><div class="coach-top"><span>'+label+' timing</span><b>~'+fmtMinShort(p.center)+' awake</b></div><div class="coach-sub">'+p.basis+'. Tap “Fell asleep” when you spot sleepy cues.</div></div>';
 }
 
 /* ---------------- metrics ---------------- */
@@ -695,14 +808,17 @@ function render(){
   renderClientSelect();
   renderClientBar();
   renderQuickLog();
+  renderDashboard();
+  renderBackupReminder();
   renderSummary();
   renderEntries();
   applyFormAvailability();
+  syncMilestones(state.activeClientId);
 }
 
 function renderClientSelect(){
   var sel=$("clientSelect");sel.innerHTML="";
-  if(!state.clients.length){var o=document.createElement("option");o.textContent="No clients yet";o.value="";sel.appendChild(o);return;}
+  if(!state.clients.length){var o=document.createElement("option");o.textContent="No babies yet";o.value="";sel.appendChild(o);return;}
   state.clients.forEach(function(c){var o=document.createElement("option");o.value=c.id;o.textContent=c.name;if(c.id===state.activeClientId)o.selected=true;sel.appendChild(o);});
 }
 
@@ -743,7 +859,7 @@ function renderSummary(){
   ].join("");
 
   var r=refFor((activeClient()||{}).dob);
-  ref.innerHTML=r?('Age reference: <b>'+r.label+'</b>. Typical total sleep <b>'+r.lo+'–'+r.hi+'h</b> per 24h. This client averages <b>'+fmtHrs(avgTotal)+'h</b>. <span style="opacity:.8">(General guidance only.)</span>'):'Add a date of birth to the client to see age-appropriate sleep reference ranges.';
+  ref.innerHTML=r?('Age reference: <b>'+r.label+'</b>. Typical total sleep <b>'+r.lo+'–'+r.hi+'h</b> per 24h. This baby averages <b>'+fmtHrs(avgTotal)+'h</b>. <span style="opacity:.8">(General guidance only.)</span>'):'Add a date of birth to the baby profile to see age-appropriate sleep reference ranges.';
 
   // chart: most recent 14 chronologically
   var recent=entries.slice(0,14).reverse();
@@ -768,7 +884,7 @@ function fmtShortDate(s){var d=new Date(s+"T00:00");return d.toLocaleDateString(
 function wtile(v,l){return '<div class="t"><div class="v">'+v+'</div><div class="l">'+l+'</div></div>';}
 function openWeek(){
   var c=activeClient();
-  if(!c){toast("Add a baby / client first");return;}
+  if(!c){toast("Add a baby profile first");return;}
   var entries=activeEntries(); // newest first
   if(!entries.length){toast("No entries to summarise yet");return;}
   var recent=entries.slice(0,7).slice().sort(function(a,b){return a.date<b.date?-1:1;}); // up to 7 most recent, oldest→newest
@@ -810,11 +926,154 @@ function openWeek(){
 function closeWeek(){$("weekModal").classList.remove("open");}
 function printWeek(){document.body.classList.add("print-week");window.print();setTimeout(function(){document.body.classList.remove("print-week");},500);}
 
+/* ---------------- Milestones (auto-detected from the baby's own logs) ---------------- */
+function babyEntriesAsc(cid){return (state.entries[cid]||[]).slice().filter(function(e){return e.periods&&e.periods.length;}).sort(function(a,b){return a.date<b.date?-1:1;});}
+function anyPeriod(e,pred){return (e.periods||[]).some(function(p){return p.start&&p.end&&pred(p);});}
+function firstDateWhere(es,pred){for(var i=0;i<es.length;i++){if(pred(es[i]))return es[i].date;}return null;}
+function longestStretchAll(es){var m=0;es.forEach(function(e){(e.periods||[]).forEach(function(p){if(p.start&&p.end){var d=periodDur(p);if(d>m)m=d;}});});return m;}
+function dayDiff(a,b){return Math.round((new Date(b+"T00:00")-new Date(a+"T00:00"))/86400000);}
+function bedtimeScan(es,band){
+  var bt=es.map(function(e){return {date:e.date,bed:metrics(e).bed};}).filter(function(x){return x.bed!=null;});
+  var best=0,at=null,start=0;
+  for(var i=0;i<bt.length;i++){
+    if(i>0 && dayDiff(bt[i-1].date,bt[i].date)!==1) start=i;
+    while(start<i){var lo=Infinity,hi=-Infinity;for(var k=start;k<=i;k++){lo=Math.min(lo,bt[k].bed);hi=Math.max(hi,bt[k].bed);}if(hi-lo<=band)break;start++;}
+    var run=i-start+1;if(run>best)best=run;if(run>=7&&at===null)at=bt[i].date;
+  }
+  return {best:best,at:at};
+}
+var MILESTONES=[
+  {id:"first-sleep",icon:"🌙",title:"First sleep logged",desc:"Your journey begins",
+    achieved:function(es){return es.length?es[0].date:null;}},
+  {id:"first-nap",icon:"☀️",title:"First nap logged",desc:"Daytime sleep counts too",
+    achieved:function(es){return firstDateWhere(es,function(e){return anyPeriod(e,function(p){return p.type==="nap";});});}},
+  {id:"stretch4",icon:"⏱️",title:"First 4-hour stretch",desc:"A solid block of sleep",
+    achieved:function(es){return firstDateWhere(es,function(e){return anyPeriod(e,function(p){return periodDur(p)>=240;});});},
+    progress:function(es){return "Best so far: "+fmtDur(longestStretchAll(es));}},
+  {id:"stretch6",icon:"🌗",title:"First 6-hour stretch",desc:"Longer sleep is coming",
+    achieved:function(es){return firstDateWhere(es,function(e){return anyPeriod(e,function(p){return periodDur(p)>=360;});});},
+    progress:function(es){return "Best so far: "+fmtDur(longestStretchAll(es));}},
+  {id:"stretch8",icon:"🌟",title:"First 8-hour stretch",desc:"A big one for everyone",
+    achieved:function(es){return firstDateWhere(es,function(e){return anyPeriod(e,function(p){return periodDur(p)>=480;});});},
+    progress:function(es){return "Best so far: "+fmtDur(longestStretchAll(es));}},
+  {id:"through-night",icon:"😴",title:"Slept through the night",desc:"10 hours unbroken",
+    achieved:function(es){return firstDateWhere(es,function(e){return anyPeriod(e,function(p){return p.type!=="nap"&&periodDur(p)>=600;});});},
+    progress:function(es){return "Best so far: "+fmtDur(longestStretchAll(es));}},
+  {id:"bedtime7",icon:"🛏️",title:"Consistent bedtime, 7 nights",desc:"Bedtime within ~45 min for a week",
+    achieved:function(es){return bedtimeScan(es,45).at;},
+    progress:function(es){return bedtimeScan(es,45).best+" nights in a row so far";}},
+  {id:"days7",icon:"📅",title:"7 days logged",desc:"Building the habit",
+    achieved:function(es){return es.length>=7?es[6].date:null;},
+    progress:function(es){return es.length+" of 7 days logged";}},
+  {id:"days30",icon:"🏆",title:"30 days logged",desc:"A full month of insight",
+    achieved:function(es){return es.length>=30?es[29].date:null;},
+    progress:function(es){return es.length+" of 30 days logged";}}
+];
+function achievedMilestoneIds(cid){var es=babyEntriesAsc(cid),ids=[];MILESTONES.forEach(function(m){if(m.achieved(es))ids.push(m.id);});return ids;}
+function syncMilestones(cid){if(!cid)return;if(!state.msSeen)state.msSeen={};if(!state.msSeen[cid])state.msSeen[cid]=achievedMilestoneIds(cid);}
+function freshMilestones(cid){
+  if(!state.msSeen)state.msSeen={};
+  var now=achievedMilestoneIds(cid),seen=state.msSeen[cid]||[];
+  var fresh=now.filter(function(id){return seen.indexOf(id)<0;});
+  state.msSeen[cid]=now;
+  return fresh.map(function(id){return MILESTONES.filter(function(m){return m.id===id;})[0];}).filter(Boolean);
+}
+function openMilestones(){
+  var c=activeClient();if(!c){toast("Add a baby profile first");return;}
+  var es=babyEntriesAsc(c.id);
+  var initials=c.name.trim().split(/\s+/).map(function(w){return w[0];}).slice(0,2).join("").toUpperCase();
+  var rows=MILESTONES.map(function(m){return {def:m,date:m.achieved(es)};});
+  var achieved=rows.filter(function(r){return r.date;});
+  var next=null;for(var i=0;i<rows.length;i++){if(!rows[i].date){next=rows[i].def;break;}}
+  var achievedHTML=achieved.slice().sort(function(a,b){return a.date<b.date?-1:1;}).map(function(r){
+    return '<div class="ms-row"><span class="ms-ico">'+r.def.icon+'</span><div><div class="ms-t">'+r.def.title+'</div><div class="ms-d">Achieved '+fmtShortDate(r.date)+'</div></div><span class="ms-check">✓</span></div>';
+  }).join("");
+  var lockedHTML=rows.filter(function(r){return !r.date && (!next||r.def.id!==next.id);}).map(function(r){
+    return '<div class="ms-row locked"><span class="ms-ico">'+r.def.icon+'</span><div><div class="ms-t">'+r.def.title+'</div><div class="ms-d">'+r.def.desc+'</div></div><span class="ms-check">Locked</span></div>';
+  }).join("");
+  var nextHTML=next?('<div class="ms-next"><span class="ms-ico">'+next.icon+'</span><div><div class="lbl">Next milestone</div><div class="ms-t">'+next.title+'</div><div class="ms-d">'+next.desc+(next.progress?' · '+next.progress(es):'')+'</div></div></div>')
+    :'<div class="ms-next"><span class="ms-ico">🏆</span><div><div class="lbl">Complete</div><div class="ms-t">All milestones reached!</div><div class="ms-d">Amazing work.</div></div></div>';
+  $("msReport").innerHTML='<div class="ms-card">'+
+    '<div class="ms-head"><div class="avatar">'+(initials||"?")+'</div><div><h3>'+esc(c.name)+' milestones</h3><div class="sub">'+achieved.length+' of '+MILESTONES.length+' reached</div></div></div>'+
+    nextHTML+
+    (achievedHTML?'<div class="ms-sec">Achieved</div>'+achievedHTML:'<div class="ms-sec" style="color:var(--muted)">Log some sleep to start earning milestones.</div>')+
+    (lockedHTML?'<div class="ms-sec">Coming up</div>'+lockedHTML:'')+
+  '</div>';
+  $("msModal").classList.add("open");
+}
+function closeMilestones(){$("msModal").classList.remove("open");}
+
+/* ---------------- Today dashboard ---------------- */
+function dtile(v,l){return '<div class="dash-tile"><div class="v">'+v+'</div><div class="l">'+l+'</div></div>';}
+function renderDashboard(){
+  var el=$("dashCard"),sec=$("dashSection");if(!el)return;
+  var c=activeClient();
+  if(!c){if(sec)sec.style.display="none";return;}
+  if(sec)sec.style.display="block";
+  var today=sleepDayFor(new Date());
+  var e=(state.entries[c.id]||[]).find(function(x){return x.date===today;});
+  $("dashDate").textContent=(new Date()).toLocaleDateString(undefined,{weekday:"long",day:"numeric",month:"short"});
+  var m=e?metrics(e):{total:0,naps:0,wakings:0};
+  var feeds=e?((e.feeds||[]).length):0;
+  var tiles='<div class="dash-tiles">'+dtile(fmtHrs(m.total)+'h','Sleep')+dtile(m.naps,'Naps')+dtile(m.wakings,'Wakings')+dtile(feeds,'Feeds')+'</div>';
+  var pred="";var pr=c.dob?predictNextSleep(c):null;var lw=lastWakeFor(c.id);
+  if(pr&&lw){var np=new Date(lw.getTime()+pr.center*60000);pred='<div class="dash-pred"><span>'+(pr.isBed?"🌙":"🎯")+'</span><div>Predicted next '+(pr.isBed?"bedtime":"nap")+' <b>~'+to12(np.getHours()*60+np.getMinutes())+'</b></div></div>';}
+  else if(pr){pred='<div class="dash-pred"><span>🎯</span><div>Awake window <b>~'+fmtMinShort(pr.center)+'</b> at this age</div></div>';}
+  var items=[];
+  if(e){
+    (e.periods||[]).filter(function(p){return p.start&&p.end;}).forEach(function(p){
+      items.push({min:toMin(p.start),t:to12(toMin(p.start))+"–"+to12(toMin(p.end)),ic:(p.type==="nap"?"☀️":"🌙"),label:(p.type==="nap"?"Nap":"Night"),dur:fmtDur(periodDur(p))});
+    });
+    (e.feeds||[]).forEach(function(f){items.push({min:toMin(f.time),t:to12(toMin(f.time)),ic:"🍼",label:"Feed",dur:""});});
+  }
+  var pend=state.pending[c.id];
+  if(pend){var pst=new Date(pend.start);items.push({min:pst.getHours()*60+pst.getMinutes(),t:to12(pst.getHours()*60+pst.getMinutes())+"–now",ic:"😴",label:"Asleep",dur:""});}
+  items.sort(function(a,b){return a.min-b.min;});
+  var tl=items.length?('<div class="dash-tl"><h4>Today\'s timeline</h4>'+items.map(function(it){return '<div class="tl-item"><span class="t">'+it.t+'</span><span class="ic">'+it.ic+'</span><span>'+it.label+'</span><span class="dur">'+it.dur+'</span></div>';}).join("")+'</div>')
+    :'<div class="dash-empty">Nothing logged yet today. Tap “Fell asleep” when your baby goes down.</div>';
+  el.innerHTML=tiles+pred+tl;
+}
+
+/* ---------------- Backup reminder (data-loss protection) ---------------- */
+var backupDismissed=false;
+function renderBackupReminder(){
+  var el=$("backupReminder");if(!el)return;el.innerHTML="";
+  if(backupDismissed||!state.clients.length)return;
+  var hasData=Object.keys(state.entries||{}).some(function(k){return (state.entries[k]||[]).length;});
+  if(!hasData)return;
+  var last=state.settings.lastBackup?new Date(state.settings.lastBackup):null;
+  var days=last?Math.floor((Date.now()-last.getTime())/86400000):null;
+  if(last&&days<7)return;
+  var msg=last?("Last backup "+days+" day"+(days===1?"":"s")+" ago."):"You haven't backed up yet.";
+  el.innerHTML='<div class="backup-bar"><span>🛟 Keep your logs safe. '+msg+' Your data lives only on this device.</span><span class="grow"><button class="btn btn-sm btn-primary" id="backupNowBtn">Back up now</button><button class="btn btn-sm" id="backupLaterBtn">Later</button></span></div>';
+  $("backupNowBtn").onclick=function(){exportJSON();};
+  $("backupLaterBtn").onclick=function(){backupDismissed=true;renderBackupReminder();};
+}
+
+/* ---------------- Add past sleep (easy back-logging) ---------------- */
+function openPast(){
+  var c=activeClient();if(!c){toast("Add a baby profile first");return;}
+  $("pDate").value=dateStr(new Date());$("pType").value="nap";$("pStart").value="";$("pEnd").value="";$("pDur").textContent="";
+  $("pastModal").classList.add("open");
+}
+function closePast(){$("pastModal").classList.remove("open");}
+function updatePDur(){var s=$("pStart").value,e=$("pEnd").value;$("pDur").textContent=(s&&e)?("Duration: "+fmtDur(periodDur({start:s,end:e}))):"";}
+function savePast(){
+  var c=activeClient();if(!c)return;
+  var date=$("pDate").value,type=$("pType").value,s=$("pStart").value,e=$("pEnd").value;
+  if(!date||!s||!e){toast("Please fill in date, fell asleep and woke up");return;}
+  var day=sleepDayFor(new Date(date+"T"+s));
+  addPeriodToEntry(c.id,day,{type:type,start:s,end:e});
+  save();closePast();render();
+  var fm=freshMilestones(c.id);if(fm.length)save();
+  toast("Added "+(type==="nap"?"nap":"night sleep")+(fm.length?" · 🎉 "+fm[fm.length-1].title:""));
+}
+
 function renderEntries(){
   var list=$("entriesList");
   var c=activeClient();
   if(!c){
-    list.innerHTML='<div class="card empty"><svg viewBox="0 0 24 24" fill="none"><path d="M21 12.8A8.5 8.5 0 1 1 11.2 3a6.6 6.6 0 0 0 9.8 9.8Z" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/></svg><h3>Welcome</h3><p>Add your first client to start logging sleep.<br>Use the ＋ button at the top right.</p></div>';
+    list.innerHTML='<div class="card empty"><svg viewBox="0 0 24 24" fill="none"><path d="M21 12.8A8.5 8.5 0 1 1 11.2 3a6.6 6.6 0 0 0 9.8 9.8Z" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/></svg><h3>Welcome</h3><p>Add your first baby profile to start logging sleep.<br>Use the ＋ button at the top right.</p></div>';
     return;
   }
   var entries=activeEntries();
@@ -907,8 +1166,8 @@ function renderQuickLog(){
   var c=activeClient();
   if(!c){
     el.innerHTML='<div class="status"><span class="emoji">👶</span></div><div class="qstate">Welcome</div>'+
-      '<div class="qsub">Add your baby (or a client) to start one-tap sleep tracking.</div>'+
-      '<button class="big-btn sleep" id="qAddClient">＋ Add baby / client</button>';
+      '<div class="qsub">Add your baby\'s profile to start one-tap sleep tracking.</div>'+
+      '<button class="big-btn sleep" id="qAddClient">＋ Add baby profile</button>';
     $("qAddClient").onclick=function(){openClientModal(false);};
     if(timerInt){clearInterval(timerInt);timerInt=null;}
     return;
@@ -938,12 +1197,13 @@ function renderQuickLog(){
       '<div class="qsub">Tap the moment '+esc(firstName(c.name))+' falls asleep, and the time fills in automatically.</div>'+
       '<button class="big-btn sleep" id="qSleep">😴 Fell asleep now</button>'+
       coachHTML(c)+
-      '<div class="qact"><button class="btn btn-sm" id="qFeed">🍼 Log feed</button><button class="btn btn-sm" id="qNote">📝 Note</button></div>'+
+      '<div class="qact"><button class="btn btn-sm" id="qFeed">🍼 Log feed</button><button class="btn btn-sm" id="qNote">📝 Note</button><button class="btn btn-sm" id="qPast">🕓 Past sleep</button></div>'+
       todayChip(c.id)+
       '<div class="type-hint">Naps, overnight sleep, and night wakings are all sorted for you. Just tap when sleep starts and ends.</div>';
     $("qSleep").onclick=startSleep;
     $("qFeed").onclick=logFeed;
     $("qNote").onclick=logNote;
+    $("qPast").onclick=openPast;
     var _cad=document.getElementById("coachAddDob");if(_cad)_cad.onclick=function(){openClientModal(true);};
   }
 }
@@ -1017,9 +1277,11 @@ function wakeUp(){
   state.lastWake[c.id]=end.toISOString();
   lastQuick={kind:"period",clientId:c.id,date:date,ref:period};
   save();render();
-  var nn="";var ww=wakeWindowFor(c.dob);
-  if(ww){var np=new Date(end.getTime()+ww.lo*60000);nn=" · next nap ~"+to12(np.getHours()*60+np.getMinutes());}
-  toastUndo((type==="night"?"🌙 Night sleep":"☀️ Nap")+" logged: "+fmtDur(periodDur(period))+nn);
+  var nn="";var pr=predictNextSleep(c);
+  if(pr){var np=new Date(end.getTime()+pr.center*60000);nn=" · next "+(pr.isBed?"bedtime":"nap")+" ~"+to12(np.getHours()*60+np.getMinutes());}
+  var fm=freshMilestones(c.id);save();
+  var mext=fm.length?(" · 🎉 "+fm[fm.length-1].title):"";
+  toastUndo((type==="night"?"🌙 Night sleep":"☀️ Nap")+" logged: "+fmtDur(periodDur(period))+nn+mext);
 }
 function cancelPending(){
   var c=activeClient();if(!c)return;
@@ -1134,6 +1396,7 @@ function submitEntry(ev){
   if(idx>=0)arr[idx]=entry;else arr.push(entry);
   save();closeForm();render();
   toast(editingEntryId?"Entry updated":"Entry saved");
+  var fmm=freshMilestones(cid);if(fmm.length){save();toast("🎉 Milestone: "+fmm[fmm.length-1].title);}
 }
 function deleteEntry(id){
   var cid=state.activeClientId;
@@ -1145,7 +1408,7 @@ function deleteEntry(id){
 function openClientModal(edit){
   editingClientId=edit?state.activeClientId:null;
   var c=edit?activeClient():null;
-  $("clientModalTitle").textContent=edit?"Edit client":"Add client";
+  $("clientModalTitle").textContent=edit?"Edit baby profile":"Add baby profile";
   $("cName").value=c?c.name:"";
   $("cDob").value=c?(c.dob||""):"";
   $("cNotes").value=c?(c.notes||""):"";
@@ -1163,15 +1426,15 @@ function saveClient(){
     var nc={id:uid(),name:name,dob:$("cDob").value,notes:$("cNotes").value.trim()};
     state.clients.push(nc);state.activeClientId=nc.id;
   }
-  save();closeClientModal();render();toast("Client saved");
+  save();closeClientModal();render();toast("Baby profile saved");
 }
 function deleteClient(){
   var c=activeClient();if(!c)return;
-  if(!confirm('Delete client "'+c.name+'" and ALL their sleep entries? This cannot be undone.'))return;
+  if(!confirm("Delete "+c.name+"'s profile and ALL their sleep entries? This cannot be undone."))return;
   delete state.entries[c.id];
   state.clients=state.clients.filter(function(x){return x.id!==c.id;});
   state.activeClientId=state.clients.length?state.clients[0].id:null;
-  save();closeClientModal();render();toast("Client deleted");
+  save();closeClientModal();render();toast("Profile deleted");
 }
 
 /* ---------------- data tools ---------------- */
@@ -1204,7 +1467,13 @@ function saveFile(filename,text,type,okMsg){
   browserDownload(filename,text,type);toast(okMsg||"Saved");
 }
 function exportJSON(){
-  saveFile("sleep-log-backup-"+new Date().toISOString().slice(0,10)+".json",JSON.stringify(state,null,2),"application/json","Backup saved");
+  state.settings.lastBackup=new Date().toISOString();save();renderBackupReminder();
+  var text=JSON.stringify(state,null,2),fname="sleep-log-backup-"+new Date().toISOString().slice(0,10)+".json";
+  try{
+    if(navigator.canShare){var file=new File([text],fname,{type:"application/json"});
+      if(navigator.canShare({files:[file]})){navigator.share({files:[file],title:"Sleep Log backup"}).then(function(){toast("Backup ready");}).catch(function(){saveFile(fname,text,"application/json","Backup saved");});return;}}
+  }catch(e){}
+  saveFile(fname,text,"application/json","Backup saved");
 }
 function importJSON(file){
   var r=new FileReader();
@@ -1213,18 +1482,19 @@ function importJSON(file){
       var data=JSON.parse(r.result);
       if(!data.clients)throw 0;
       if(!confirm("Restore this backup? It will REPLACE all current data in this browser."))return;
-      state=data;state.pending=state.pending||{};
+      state=data;state.pending=state.pending||{};state.lastWake=state.lastWake||{};state.msSeen=state.msSeen||{};
       if(!state.settings)state.settings={};
       if(!state.settings.dayStart)state.settings.dayStart="12:00";
       if(!state.settings.dayGroup)state.settings.dayGroup="05:00";
       if(!state.settings.theme)state.settings.theme="light";
-      save();applyTheme();render();toast("Data restored");
+      if(!state.settings.night)state.settings.night="off";
+      save();applyTheme();applyNight();render();toast("Data restored");
     }catch(e){toast("Could not read that file");}
   };
   r.readAsText(file);
 }
 function exportCSV(){
-  var c=activeClient();if(!c){toast("No client selected");return;}
+  var c=activeClient();if(!c){toast("No baby selected");return;}
   var entries=activeEntries().slice().reverse();
   var rows=[["Date","Total sleep (h)","Night sleep (h)","Day sleep (h)","Naps","Night wakings","Night waking (h)","Onset latency (min)","Bedtime","Wake time","Feeds","Feed times","Sleep periods","Notes"]];
   entries.forEach(function(e){
@@ -1243,9 +1513,9 @@ function doPrint(){
   window.print();
 }
 function clearAll(){
-  if(!confirm("Delete ALL clients and entries from this browser? Consider making a Backup first. This cannot be undone."))return;
+  if(!confirm("Delete ALL baby profiles and entries from this browser? Consider making a Backup first. This cannot be undone."))return;
   if(!confirm("Are you absolutely sure? Everything will be erased."))return;
-  state={clients:[],entries:{},activeClientId:null,pending:{},lastWake:{},settings:{dayStart:"12:00",dayGroup:"05:00",theme:(state.settings&&state.settings.theme)||"light",night:(state.settings&&state.settings.night)||"off"}};
+  state={clients:[],entries:{},activeClientId:null,pending:{},lastWake:{},msSeen:{},settings:{dayStart:"12:00",dayGroup:"05:00",theme:(state.settings&&state.settings.theme)||"light",night:(state.settings&&state.settings.night)||"off"}};
   save();applyTheme();applyNight();render();toast("All data cleared");
 }
 
@@ -1336,6 +1606,14 @@ $("weekBtn").onclick=openWeek;
 $("weekCloseBtn").onclick=closeWeek;
 $("weekPrintBtn").onclick=printWeek;
 $("weekModal").addEventListener("click",function(e){if(e.target===this)closeWeek();});
+$("msBtn").onclick=openMilestones;
+$("msCloseBtn").onclick=closeMilestones;
+$("msModal").addEventListener("click",function(e){if(e.target===this)closeMilestones();});
+$("pastSave").onclick=savePast;
+$("pastCancel").onclick=closePast;
+$("pastModal").addEventListener("click",function(e){if(e.target===this)closePast();});
+$("pStart").addEventListener("input",updatePDur);
+$("pEnd").addEventListener("input",updatePDur);
 $("themeBtn").onclick=toggleTheme;
 $("nightBtn").onclick=toggleNight;
 $("noiseBtn").onclick=openNoise;
@@ -1351,7 +1629,7 @@ $("importBtn").onclick=function(){$("importFile").click();};
 $("importFile").addEventListener("change",function(){if(this.files[0])importJSON(this.files[0]);this.value="";});
 $("clearBtn").onclick=clearAll;
 
-document.addEventListener("keydown",function(e){if(e.key==="Escape"){closeClientModal();closeWeek();closeNoise();}});
+document.addEventListener("keydown",function(e){if(e.key==="Escape"){closeClientModal();closeWeek();closeNoise();closeMilestones();closePast();}});
 
 /* ---------------- init ---------------- */
 applyTheme();
