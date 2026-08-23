@@ -453,7 +453,7 @@
 
   <!-- Today dashboard -->
   <div class="section" id="dashSection">
-    <div class="section-head"><h2>Today</h2><span id="dashDate" style="font-size:13px;color:var(--muted)"></span></div>
+    <div class="section-head"><h2>Today</h2><div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap"><span id="dashDate" style="font-size:13px;color:var(--muted)"></span><button class="btn btn-sm" id="msBtn">🏅 Milestones</button><button class="btn btn-sm btn-primary" id="weekBtn">📊 Weekly summary</button></div></div>
     <div class="card dash" id="dashCard"></div>
   </div>
 
@@ -498,7 +498,7 @@
 
   <!-- Summary -->
   <div class="section" id="summarySection">
-    <div class="section-head"><h2>Summary (averages)</h2><div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap"><span id="daysLogged" style="font-size:13px;color:var(--muted)"></span><button class="btn btn-sm" id="msBtn">🏅 Milestones</button><button class="btn btn-sm btn-primary" id="weekBtn">📊 Weekly summary</button></div></div>
+    <div class="section-head"><h2>Summary (averages)</h2><span id="daysLogged" style="font-size:13px;color:var(--muted)"></span></div>
     <div class="stats" id="statCards"></div>
     <div class="ref-note" id="refNote"></div>
     <div class="card chart-wrap" id="chartCard" style="margin-top:12px">
