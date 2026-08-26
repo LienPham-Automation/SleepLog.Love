@@ -126,7 +126,8 @@
 
   /* ---------- Chart ---------- */
   .chart-wrap{padding:18px 20px 12px}
-  .chart{display:flex;align-items:flex-end;gap:6px;height:150px;padding-top:8px}
+  .chart{display:flex;align-items:flex-end;gap:6px;height:184px;padding-top:10px}
+  .chart-cap{text-align:center;font-size:12px;color:var(--muted);margin:2px 0 10px}
   .bar-col{flex:1;display:flex;flex-direction:column;align-items:center;gap:6px;min-width:0}
   .bar-stack{width:100%;max-width:34px;display:flex;flex-direction:column-reverse;justify-content:flex-start;height:120px;border-radius:6px 6px 0 0;overflow:hidden;background:var(--surface-2)}
   .bar-night{background:var(--night)}
@@ -350,7 +351,6 @@
   html[data-night="on"] .client-select select,html[data-night="on"] .icon-btn{background:rgba(255,120,60,.10);border-color:rgba(255,120,60,.30);color:#d18b6a}
   html[data-night="on"] #nightBtn{background:rgba(255,140,80,.30);border-color:rgba(255,140,80,.5)}
   html[data-night="on"] .lead-gate{background:#0b0603}
-  html[data-night="on"] body{filter:brightness(.9)}
 
   /* ---------- Milestones ---------- */
   .ms-card{background:var(--surface);border-radius:16px;padding:20px;max-width:540px;width:100%}
@@ -538,8 +538,8 @@
       <div class="legend">
         <span><i class="swatch bar-night"></i> Night sleep</span>
         <span><i class="swatch bar-nap"></i> Naps</span>
-        <span style="color:var(--muted)">Total sleep per day (hours), most recent 14</span>
       </div>
+      <div class="chart-cap">Total sleep per day (hours), most recent 14</div>
       <div class="chart" id="chart"></div>
     </div>
   </div>
