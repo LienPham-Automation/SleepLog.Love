@@ -145,14 +145,20 @@
   label.field{display:flex;flex-direction:column;gap:5px;font-size:12.5px;font-weight:600;color:var(--muted)}
   .field input,.field select,.field textarea{
     border:1px solid var(--border);background:var(--surface-2);color:var(--text);
-    padding:9px 11px;border-radius:9px;width:100%;
+    padding:10px 12px;border-radius:12px;width:100%;min-width:0;max-width:100%;box-sizing:border-box;
   }
   .field input:focus,.field select:focus,.field textarea:focus,.periods input:focus,.periods select:focus{outline:2px solid var(--accent-soft);border-color:var(--accent)}
   .periods{margin-top:6px;display:flex;flex-direction:column;gap:9px}
-  .period-row{display:flex;gap:8px;align-items:center;background:var(--surface-2);padding:9px 10px;border-radius:10px;border:1px solid var(--border);flex-wrap:wrap}
+  .period-row{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr) auto;gap:9px 8px;align-items:center;
+    background:var(--surface-2);padding:11px;border-radius:14px;border:1px solid var(--border)}
+  .period-row .p-type{grid-column:1 / 3;width:100%}
+  .period-row .rm{grid-column:3;grid-row:1}
   .period-row select{border:1px solid var(--border);background:var(--surface);color:var(--text);padding:7px 9px;border-radius:8px;font-weight:600}
-  .period-row .tgrp{display:flex;align-items:center;gap:6px;color:var(--muted);font-size:12.5px}
-  .period-row input[type=time]{border:1px solid var(--border);background:var(--surface);color:var(--text);padding:7px 9px;border-radius:8px}
+  .period-row .tgrp{display:flex;flex-direction:column;align-items:stretch;gap:3px;color:var(--muted);font-size:11px;min-width:0;text-transform:uppercase;letter-spacing:.04em;font-weight:700}
+  .period-row .tgrp:nth-of-type(1){grid-column:1;grid-row:2}
+  .period-row .tgrp:nth-of-type(2){grid-column:2;grid-row:2}
+  .period-row .tgrp input{width:100%;min-width:0;box-sizing:border-box}
+  .period-row input[type=time]{border:1px solid var(--border);background:var(--surface);color:var(--text);padding:8px 10px;border-radius:10px;box-sizing:border-box}
   .period-row .rm{margin-left:auto;background:transparent;border:none;color:var(--muted);font-size:18px;line-height:1;padding:4px 8px;border-radius:8px}
   .period-row .rm:hover{color:var(--danger);background:var(--surface)}
   .form-actions{display:flex;gap:10px;margin-top:16px;flex-wrap:wrap;align-items:center}
@@ -458,6 +464,15 @@
   .nappy-btn{font-size:15px;padding:18px 8px}
   .diaper-chip{background:var(--surface-2);border:1px solid var(--border);border-radius:20px;padding:2px 10px;font-weight:600;font-size:12.5px}
 
+  /* the hidden attribute must beat display:flex/inline-flex from component classes */
+  [hidden]{display:none !important}
+  .nudge-row{display:flex;gap:6px;margin-top:10px;flex-wrap:wrap}
+  .nudge-row button{flex:1;min-width:66px;background:var(--surface-2);border:1px solid var(--border);
+    border-radius:999px;padding:8px 6px;font-size:12.5px;font-weight:700;color:var(--text);cursor:pointer;font-family:inherit}
+  .nudge-row button:hover{border-color:var(--accent);color:var(--accent)}
+  .feed-chip[data-feededit],.diaper-chip[data-napedit]{cursor:pointer}
+  .feed-chip[data-feededit]:hover,.diaper-chip[data-napedit]:hover{border-color:var(--accent);color:var(--accent)}
+
   /* runaway-sleep warning */
   .runaway{margin:12px auto 0;max-width:420px;background:#fff4e5;border:1px solid #f0c987;color:#5a3d00;
     border-radius:16px;padding:13px 14px;font-size:13.5px;font-weight:700;text-align:center;line-height:1.45}
@@ -641,7 +656,7 @@
         <label class="field">Date
           <input type="date" id="fDate" required>
         </label>
-        <label class="field">Put to bed <span style="font-weight:500">(optional)</span>
+        <label class="field">Put to bed
           <input type="time" id="fBedtime">
         </label>
       </div>
@@ -766,7 +781,7 @@
     <h3>Daily routine</h3>
     <p style="font-size:13px;color:var(--muted);margin:-8px 0 14px">Set target times so the app can guide the day and cap naps for you. Great for following a consultant's plan.</p>
     <label style="display:flex;gap:10px;align-items:center;font-weight:600;font-size:14px;margin-bottom:12px;cursor:pointer"><input type="checkbox" id="planOn" style="width:18px;height:18px"> Use a daily routine</label>
-    <div class="form-grid" style="grid-template-columns:1fr 1fr">
+    <div class="form-grid" style="grid-template-columns:minmax(0,1fr) minmax(0,1fr)">
       <label class="field">Morning wake<input type="time" id="planWake"></label>
       <label class="field">Bedtime<input type="time" id="planBed"></label>
     </div>
@@ -785,7 +800,7 @@
   <div class="modal" style="max-width:400px">
     <h3>Add a past sleep</h3>
     <p style="font-size:13px;color:var(--muted);margin:-8px 0 14px">Catch up on a nap or night you didn't log at the time.</p>
-    <div class="form-grid" style="grid-template-columns:1fr 1fr">
+    <div class="form-grid" style="grid-template-columns:minmax(0,1fr) minmax(0,1fr)">
       <label class="field">Date<input type="date" id="pDate"></label>
       <label class="field">Type<select id="pType"><option value="nap">☀️ Nap</option><option value="night">🌙 Night</option></select></label>
       <label class="field">Fell asleep<input type="time" id="pStart"></label>
@@ -853,7 +868,7 @@
 <div class="modal-back" id="feedModal">
   <div class="modal" style="max-width:400px">
     <div class="modal-close-row"><button type="button" class="modal-x" id="feedX" aria-label="Close">✕</button></div>
-    <h3>🍼 Log a feed</h3>
+    <h3 id="feedTitle">🍼 Log a feed</h3>
     <div class="form-grid" style="grid-template-columns:1fr">
       <label class="field">Time<input type="time" id="feedTime"></label>
       <label class="field">Amount <span style="font-weight:500">(optional)</span>
@@ -869,8 +884,10 @@
           <button type="button" class="choice" data-ft="solids">🥣 Solids</button>
         </div>
       </label>
+      <label class="field">Note <span style="font-weight:500">(optional)</span><input type="text" id="feedNote" maxlength="80" placeholder="e.g. spat up, fussy"></label>
     </div>
     <div class="modal-actions">
+      <button class="btn btn-danger" id="feedDelete" hidden>Delete</button>
       <button class="btn" id="feedCancel">Cancel</button>
       <button class="btn btn-primary" id="feedSave">Save feed</button>
     </div>
@@ -881,13 +898,19 @@
 <div class="modal-back" id="nappyModal">
   <div class="modal" style="max-width:360px">
     <div class="modal-close-row"><button type="button" class="modal-x" id="nappyX" aria-label="Close">✕</button></div>
-    <h3>🧷 Log a nappy</h3>
-    <div class="choice-row">
+    <h3 id="nappyTitle">🧷 Log a nappy</h3>
+    <div class="form-grid" style="grid-template-columns:1fr">
+      <label class="field">Time<input type="time" id="nappyTime"></label>
+    </div>
+    <div class="nudge-row" id="nappyNudge">
+      <button type="button" data-nn="0">Now</button><button type="button" data-nn="15">15m ago</button><button type="button" data-nn="30">30m ago</button><button type="button" data-nn="60">1h ago</button>
+    </div>
+    <div class="choice-row" style="margin-top:12px">
       <button type="button" class="choice nappy-btn" data-diaper="wet">💧 Wet</button>
       <button type="button" class="choice nappy-btn" data-diaper="dirty">💩 Dirty</button>
       <button type="button" class="choice nappy-btn" data-diaper="both">💧💩 Both</button>
     </div>
-    <p style="font-size:12px;color:var(--muted);margin:12px 0 0;text-align:center">Logged at the current time.</p>
+    <div class="modal-actions" id="nappyEditRow" hidden><button class="btn btn-danger" id="nappyDelete">Delete</button></div>
   </div>
 </div>
 
@@ -1454,13 +1477,13 @@ function renderDashboard(){
     (e.periods||[]).filter(function(p){return p.start&&p.end;}).forEach(function(p){
       items.push({min:toMin(p.start),t:to12(toMin(p.start))+"–"+to12(toMin(p.end)),ic:(p.type==="nap"?"☀️":"🌙"),cls:(p.type==="nap"?"ic-nap":"ic-night"),label:(p.type==="nap"?"Nap":"Night"),dur:fmtDur(periodDur(p))});
     });
-    (e.feeds||[]).forEach(function(f){items.push({min:toMin(f.time),t:to12(toMin(f.time)),ic:"🍼",cls:"ic-feed",label:"Feed"+(f.type?" ("+f.type+")":""),dur:(f.amount?f.amount+(f.unit||"ml"):"")});});
-    (e.diapers||[]).forEach(function(dp){items.push({min:toMin(dp.time),t:to12(toMin(dp.time)),ic:"🧷",cls:"ic-nappy",label:"Nappy",dur:diaperLabel(dp.type)});});
+    (e.feeds||[]).forEach(function(f){items.push({min:toMin(f.time),t:to12(toMin(f.time)),ic:"🍼",cls:"ic-feed",kind:"feed",time:f.time,label:"Feed"+(f.type?" ("+f.type+")":""),dur:(f.amount?f.amount+(f.unit||"ml"):"")});});
+    (e.diapers||[]).forEach(function(dp){items.push({min:toMin(dp.time),t:to12(toMin(dp.time)),ic:"🧷",cls:"ic-nappy",kind:"nappy",time:dp.time,label:"Nappy",dur:diaperLabel(dp.type)});});
   }
   var pend=state.pending[c.id];
   if(pend){var pst=new Date(pend.start);items.push({min:pst.getHours()*60+pst.getMinutes(),t:to12(pst.getHours()*60+pst.getMinutes())+"–now",ic:"😴",cls:"ic-asleep",label:"Asleep",dur:""});}
   items.sort(function(a,b){return a.min-b.min;});
-  var tl=items.length?('<div class="dash-tl"><h4>Today\'s timeline'+(e?' <span class="tl-hint">tap to edit</span>':'')+'</h4>'+items.map(function(it){return '<div class="tl-item"><span class="t">'+it.t+'</span><span class="ic '+(it.cls||"")+'">'+it.ic+'</span><span>'+it.label+'</span><span class="dur">'+it.dur+'</span></div>';}).join("")+'</div>')
+  var tl=items.length?('<div class="dash-tl"><h4>Today\'s timeline'+(e?' <span class="tl-hint">tap to edit</span>':'')+'</h4>'+items.map(function(it){return '<div class="tl-item"'+(it.kind?' data-kind="'+it.kind+'" data-time="'+it.time+'"':'')+'><span class="t">'+it.t+'</span><span class="ic '+(it.cls||"")+'">'+it.ic+'</span><span>'+it.label+'</span><span class="dur">'+it.dur+'</span></div>';}).join("")+'</div>')
     :'<div class="dash-empty">Nothing logged yet today. Tap “Fell asleep” when your baby goes down.</div>';
   el.innerHTML=qa+ring+tiles+pred+renderPlanBlock(c,e)+tl;
   var qf=$("qaFeed");if(qf)qf.onclick=openFeed;
@@ -1469,7 +1492,10 @@ function renderDashboard(){
   var qp=$("qaPast");if(qp)qp.onclick=openPast;
   if(e){[].forEach.call(el.querySelectorAll(".tl-item"),function(it){
     it.classList.add("tl-tap");
-    it.onclick=function(){showTab("log");startEdit(e.id);};
+    var kind=it.getAttribute("data-kind"),tm=it.getAttribute("data-time");
+    if(kind==="feed")it.onclick=function(){openFeed({entryId:e.id,time:tm});};
+    else if(kind==="nappy")it.onclick=function(){openNappy({entryId:e.id,time:tm});};
+    else it.onclick=function(){showTab("log");startEdit(e.id);};
   });}
 }
 
@@ -1527,8 +1553,11 @@ function renderEntries(){
     var delB=document.querySelector('[data-del="'+e.id+'"]');
     if(delB)delB.onclick=function(){if(confirm("Delete entry for "+e.date+"?")){deleteEntry(e.id);}};
   });
-  [].forEach.call(document.querySelectorAll(".feed-chip .x"),function(x){
-    x.onclick=function(){var key=x.parentNode.getAttribute("data-feed").split("|");removeFeed(key[0],key[1]);};
+  [].forEach.call(document.querySelectorAll("[data-feededit]"),function(ch){
+    ch.onclick=function(){var k=ch.getAttribute("data-feededit").split("|");openFeed({entryId:k[0],time:k[1]});};
+  });
+  [].forEach.call(document.querySelectorAll("[data-napedit]"),function(ch){
+    ch.onclick=function(){var k=ch.getAttribute("data-napedit").split("|");openNappy({entryId:k[0],time:k[1]});};
   });
 }
 function removeFeed(entryId,time){
@@ -1569,13 +1598,13 @@ function feedsHTML(e){
   if(!feeds.length)return "";
   var tot=feedTotal(e);
   return '<div class="feeds-line"><span>🍼 Feeds ('+feeds.length+(tot?", "+tot.amount+tot.unit:"")+'):</span>'+
-    feeds.map(function(f){return '<span class="feed-chip" data-feed="'+e.id+'|'+f.time+'">'+to12(toMin(f.time))+(f.amount?" "+f.amount+(f.unit||"ml"):"")+' <span class="x" title="Remove">×</span></span>';}).join('')+'</div>';
+    feeds.map(function(f){return '<span class="feed-chip" data-feededit="'+e.id+'|'+f.time+'" title="Tap to edit">'+to12(toMin(f.time))+(f.amount?" "+f.amount+(f.unit||"ml"):"")+(f.note?" 📝":"")+'</span>';}).join('')+'</div>';
 }
 function diapersHTML(e){
   var ds=(e.diapers||[]).slice().sort(function(a,b){return toMin(a.time)-toMin(b.time);});
   if(!ds.length)return "";
   return '<div class="feeds-line"><span>🧷 Nappies ('+ds.length+'):</span>'+
-    ds.map(function(d){return '<span class="diaper-chip">'+to12(toMin(d.time))+' '+(d.type==="wet"?"💧":d.type==="dirty"?"💩":"💧💩")+'</span>';}).join('')+'</div>';
+    ds.map(function(d){return '<span class="diaper-chip" data-napedit="'+e.id+'|'+d.time+'" title="Tap to edit">'+to12(toMin(d.time))+' '+(d.type==="wet"?"💧":d.type==="dirty"?"💩":"💧💩")+'</span>';}).join('')+'</div>';
 }
 
 function timelineHTML(e){
@@ -1721,34 +1750,101 @@ function feedTotal(e){
 }
 function diaperLabel(t){return t==="wet"?"Wet 💧":(t==="dirty"?"Dirty 💩":"Both 💧💩");}
 var feedUnitSel="ml",feedTypeSel="";
-function openFeed(){
+function dateForTimeToday(hm){
+  var d=new Date(),m=toMin(hm);
+  d.setHours(Math.floor(m/60),m%60,0,0);
+  if(d.getTime()>Date.now()+60000)d.setDate(d.getDate()-1);   /* a time later than now means yesterday */
+  return d;
+}
+var feedEditRef=null, nappyEditRef=null;
+
+function openFeed(ref){
   var c=activeClient();if(!c){toast("Add a baby profile first");return;}
-  $("feedTime").value=hmFromDate(new Date());
-  $("feedAmount").value="";
-  feedUnitSel=state.settings.feedUnit||"ml";feedTypeSel="";
+  feedEditRef=ref||null;
+  var f=null;
+  if(feedEditRef){
+    var e0=(state.entries[c.id]||[]).find(function(x){return x.id===feedEditRef.entryId;});
+    f=e0&&(e0.feeds||[]).find(function(x){return x.time===feedEditRef.time;});
+    if(!f){feedEditRef=null;}
+  }
+  $("feedTitle").textContent=f?"🍼 Edit feed":"🍼 Log a feed";
+  $("feedDelete").hidden=!f;
+  $("feedTime").value=f?f.time:hmFromDate(new Date());
+  $("feedAmount").value=(f&&f.amount!=null)?f.amount:"";
+  $("feedNote").value=(f&&f.note)?f.note:"";
+  feedUnitSel=(f&&f.unit)||state.settings.feedUnit||"ml";
+  feedTypeSel=(f&&f.type)||"";
   [].forEach.call(document.querySelectorAll("#feedModal .unit-toggle button"),function(b){b.classList.toggle("on",b.getAttribute("data-unit")===feedUnitSel);});
-  [].forEach.call(document.querySelectorAll("#feedTypeRow .choice"),function(b){b.classList.remove("on");});
+  [].forEach.call(document.querySelectorAll("#feedTypeRow .choice"),function(b){b.classList.toggle("on",b.getAttribute("data-ft")===feedTypeSel);});
   $("feedModal").classList.add("open");
 }
-function closeFeed(){$("feedModal").classList.remove("open");}
+function closeFeed(){$("feedModal").classList.remove("open");feedEditRef=null;}
 function saveFeed(){
   var c=activeClient();if(!c)return;
   var time=$("feedTime").value||hmFromDate(new Date());
   var amt=parseFloat($("feedAmount").value);if(isNaN(amt)||amt<0)amt=null;
-  var e=ensureEntry(c.id,sleepDayFor(new Date()));
-  e.feeds.push({time:time,amount:amt,unit:feedUnitSel,type:feedTypeSel||"",note:""});
+  var note=($("feedNote").value||"").trim();
+  if(feedEditRef){
+    var e0=(state.entries[c.id]||[]).find(function(x){return x.id===feedEditRef.entryId;});
+    var f=e0&&(e0.feeds||[]).find(function(x){return x.time===feedEditRef.time;});
+    if(f){f.time=time;f.amount=amt;f.unit=feedUnitSel;f.type=feedTypeSel||"";f.note=note;}
+    state.settings.feedUnit=feedUnitSel;
+    save();closeFeed();render();toast("✓ Feed updated");
+    return;
+  }
+  var e=ensureEntry(c.id,sleepDayFor(dateForTimeToday(time)));
+  e.feeds.push({time:time,amount:amt,unit:feedUnitSel,type:feedTypeSel||"",note:note});
   state.settings.feedUnit=feedUnitSel;
   save();closeFeed();render();
   toast("🍼 Feed logged"+(amt?" ("+amt+feedUnitSel+")":" at "+to12(toMin(time))));
 }
-function openNappy(){var c=activeClient();if(!c){toast("Add a baby profile first");return;}$("nappyModal").classList.add("open");}
-function closeNappy(){$("nappyModal").classList.remove("open");}
+function deleteFeed(){
+  var c=activeClient();if(!c||!feedEditRef)return;
+  var e0=(state.entries[c.id]||[]).find(function(x){return x.id===feedEditRef.entryId;});
+  if(e0)e0.feeds=(e0.feeds||[]).filter(function(x){return x.time!==feedEditRef.time;});
+  save();closeFeed();render();toast("Feed removed");
+}
+
+function openNappy(ref){
+  var c=activeClient();if(!c){toast("Add a baby profile first");return;}
+  nappyEditRef=ref||null;
+  var d=null;
+  if(nappyEditRef){
+    var e0=(state.entries[c.id]||[]).find(function(x){return x.id===nappyEditRef.entryId;});
+    d=e0&&(e0.diapers||[]).find(function(x){return x.time===nappyEditRef.time;});
+    if(!d){nappyEditRef=null;}
+  }
+  $("nappyTitle").textContent=d?"🧷 Edit nappy":"🧷 Log a nappy";
+  $("nappyEditRow").hidden=!d;
+  $("nappyTime").value=d?d.time:hmFromDate(new Date());
+  [].forEach.call(document.querySelectorAll("#nappyModal [data-diaper]"),function(b){b.classList.toggle("on",!!d&&b.getAttribute("data-diaper")===d.type);});
+  $("nappyModal").classList.add("open");
+}
+function closeNappy(){$("nappyModal").classList.remove("open");nappyEditRef=null;}
+function nappyNudge(mins){
+  var d=new Date(Date.now()-mins*60000);
+  $("nappyTime").value=hmFromDate(d);
+}
 function logDiaper(type){
   var c=activeClient();if(!c)return;
-  var now=new Date();var e=ensureEntry(c.id,sleepDayFor(now));
-  e.diapers.push({time:hmFromDate(now),type:type});
+  var time=$("nappyTime").value||hmFromDate(new Date());
+  if(nappyEditRef){
+    var e0=(state.entries[c.id]||[]).find(function(x){return x.id===nappyEditRef.entryId;});
+    var d=e0&&(e0.diapers||[]).find(function(x){return x.time===nappyEditRef.time;});
+    if(d){d.time=time;d.type=type;}
+    save();closeNappy();render();toast("✓ Nappy updated");
+    return;
+  }
+  var e=ensureEntry(c.id,sleepDayFor(dateForTimeToday(time)));
+  e.diapers.push({time:time,type:type});
   save();closeNappy();render();
-  toast("🧷 Nappy logged ("+type+")");
+  toast("🧷 Nappy logged ("+type+") at "+to12(toMin(time)));
+}
+function deleteDiaper(){
+  var c=activeClient();if(!c||!nappyEditRef)return;
+  var e0=(state.entries[c.id]||[]).find(function(x){return x.id===nappyEditRef.entryId;});
+  if(e0)e0.diapers=(e0.diapers||[]).filter(function(x){return x.time!==nappyEditRef.time;});
+  save();closeNappy();render();toast("Nappy removed");
 }
 function tickTimer(){
   var t=$("qTimer");
@@ -2281,6 +2377,9 @@ $("feedModal").addEventListener("click",function(e){if(e.target===this)closeFeed
 $("nappyX").onclick=closeNappy;
 $("nappyModal").addEventListener("click",function(e){if(e.target===this)closeNappy();});
 [].forEach.call(document.querySelectorAll("#nappyModal [data-diaper]"),function(b){b.onclick=function(){logDiaper(b.getAttribute("data-diaper"));};});
+[].forEach.call(document.querySelectorAll("#nappyNudge [data-nn]"),function(b){b.onclick=function(){nappyNudge(+b.getAttribute("data-nn"));};});
+$("nappyDelete").onclick=deleteDiaper;
+$("feedDelete").onclick=deleteFeed;
 $("pastSave").onclick=savePast;
 $("pastCancel").onclick=closePast;
 $("pastModal").addEventListener("click",function(e){if(e.target===this)closePast();});
