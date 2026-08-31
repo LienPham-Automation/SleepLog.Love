@@ -1882,6 +1882,8 @@ function applyFormAvailability(){
 }
 function openForm(){
   if(!activeClient())return;
+  /* the form lives in the Log view: Edit is tapped from History and the timeline from Home */
+  if(typeof showTab==="function")showTab("log");
   $("entryForm").hidden=false;
   $("addEntryBtn").style.display="none";
   $("entryForm").scrollIntoView({behavior:"smooth",block:"nearest"});
