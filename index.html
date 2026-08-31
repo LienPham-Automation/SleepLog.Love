@@ -458,6 +458,17 @@
   .nappy-btn{font-size:15px;padding:18px 8px}
   .diaper-chip{background:var(--surface-2);border:1px solid var(--border);border-radius:20px;padding:2px 10px;font-weight:600;font-size:12.5px}
 
+  /* runaway-sleep warning */
+  .runaway{margin:12px auto 0;max-width:420px;background:#fff4e5;border:1px solid #f0c987;color:#5a3d00;
+    border-radius:16px;padding:13px 14px;font-size:13.5px;font-weight:700;text-align:center;line-height:1.45}
+  html[data-theme="dark"] .runaway{background:#3a2a10;border-color:#7a5a20;color:#f3d19a}
+  html[data-night="on"] .runaway{background:#3a1d0c;border-color:#6b3c20;color:#f0c4a4}
+  .runaway-acts{display:flex;gap:8px;justify-content:center;margin-top:10px;flex-wrap:wrap}
+  .tl-hint{font-size:10px;font-weight:600;color:var(--accent);text-transform:none;letter-spacing:0;
+    background:var(--surface-2);border-radius:999px;padding:2px 8px;margin-left:6px}
+  .tl-item.tl-tap{cursor:pointer;border-radius:12px;transition:background .15s}
+  .tl-item.tl-tap:hover{background:var(--surface-2)}
+
   /* ================= RESKIN ================= */
   .greet{position:relative;overflow:hidden;border:none;
     background:linear-gradient(150deg,#2c2a63,#4a3f9e 62%,#5b4fd0);color:#fff;
@@ -880,6 +891,21 @@
   </div>
 </div>
 
+<div class="modal-back" id="longModal">
+  <div class="modal" style="max-width:400px">
+    <div class="modal-close-row"><button type="button" class="modal-x" id="longX" aria-label="Close">✕</button></div>
+    <h3>😴 That is a long sleep</h3>
+    <p id="longMsg" style="font-size:14px;color:var(--muted);line-height:1.5;margin-bottom:14px"></p>
+    <div class="form-grid" style="grid-template-columns:1fr">
+      <label class="field">Woke up at<input type="time" id="longWake"></label>
+    </div>
+    <div id="longDur" style="font-size:13px;color:var(--muted);margin-top:8px;font-weight:600"></div>
+    <div class="modal-actions">
+      <button class="btn" id="longKeep">It is correct</button>
+      <button class="btn btn-primary" id="longSave">Save wake time</button>
+    </div>
+  </div>
+</div>
 <div id="toast"></div>
 
 <script>
@@ -931,6 +957,10 @@ function dateStr(d){return d.getFullYear()+"-"+pad2(d.getMonth()+1)+"-"+pad2(d.g
 // Which "sleep day" a moment belongs to. Before the early-morning boundary counts as the previous day,
 // so an overnight sleep and an after-midnight resettle stay on the same day, while morning naps read as "today".
 function sleepDayFor(d){var g=toMin(state.settings.dayGroup);if(g==null)g=300;var mins=d.getHours()*60+d.getMinutes();var dd=new Date(d);if(mins<g)dd.setDate(dd.getDate()-1);return dateStr(dd);}
+/* ---- implausible-sleep guard: catches a forgotten "Woke up" tap ---- */
+var MAX_NAP_MIN=240, MAX_NIGHT_MIN=780;   /* 4h nap, 13h night */
+function sleepCap(type){return type==="night"?MAX_NIGHT_MIN:MAX_NAP_MIN;}
+function isOverlong(p){return !!(p&&p.start&&p.end&&periodDur(p)>sleepCap(p.type));}
 function classifyType(hm){var h=Math.floor(toMin(hm)/60);return (h>=18||h<5)?"night":"nap";}
 function firstName(n){return String(n||"").trim().split(/\s+/)[0]||"they";}
 
@@ -962,7 +992,7 @@ function recentWakeWindows(cid){
   var ws=toMin(state.settings.dayStart)||720;
   var out=[];
   arr.forEach(function(e){
-    var ps=(e.periods||[]).filter(function(p){return p.start&&p.end;}).map(function(p){
+    var ps=(e.periods||[]).filter(function(p){return p.start&&p.end&&!isOverlong(p);}).map(function(p){
       var s=toMin(p.start),en=toMin(p.end);if(en<=s)en+=1440;
       var off=(((s-ws)%1440)+1440)%1440;return {off:off,offEnd:off+(en-s)};
     }).sort(function(a,b){return a.off-b.off;});
@@ -1430,13 +1460,17 @@ function renderDashboard(){
   var pend=state.pending[c.id];
   if(pend){var pst=new Date(pend.start);items.push({min:pst.getHours()*60+pst.getMinutes(),t:to12(pst.getHours()*60+pst.getMinutes())+"–now",ic:"😴",cls:"ic-asleep",label:"Asleep",dur:""});}
   items.sort(function(a,b){return a.min-b.min;});
-  var tl=items.length?('<div class="dash-tl"><h4>Today\'s timeline</h4>'+items.map(function(it){return '<div class="tl-item"><span class="t">'+it.t+'</span><span class="ic '+(it.cls||"")+'">'+it.ic+'</span><span>'+it.label+'</span><span class="dur">'+it.dur+'</span></div>';}).join("")+'</div>')
+  var tl=items.length?('<div class="dash-tl"><h4>Today\'s timeline'+(e?' <span class="tl-hint">tap to edit</span>':'')+'</h4>'+items.map(function(it){return '<div class="tl-item"><span class="t">'+it.t+'</span><span class="ic '+(it.cls||"")+'">'+it.ic+'</span><span>'+it.label+'</span><span class="dur">'+it.dur+'</span></div>';}).join("")+'</div>')
     :'<div class="dash-empty">Nothing logged yet today. Tap “Fell asleep” when your baby goes down.</div>';
   el.innerHTML=qa+ring+tiles+pred+renderPlanBlock(c,e)+tl;
   var qf=$("qaFeed");if(qf)qf.onclick=openFeed;
   var qn=$("qaNappy");if(qn)qn.onclick=openNappy;
   var qnote=$("qaNote");if(qnote)qnote.onclick=logNote;
   var qp=$("qaPast");if(qp)qp.onclick=openPast;
+  if(e){[].forEach.call(el.querySelectorAll(".tl-item"),function(it){
+    it.classList.add("tl-tap");
+    it.onclick=function(){showTab("log");startEdit(e.id);};
+  });}
 }
 
 /* ---------------- Backup reminder (data-loss protection) ---------------- */
@@ -1590,6 +1624,14 @@ function renderQuickLog(){
     var start=new Date(p.start);
     var type=classifyType(hmFromDate(start));
     var startM=start.getHours()*60+start.getMinutes();
+    var elapsedMin=Math.floor((Date.now()-start.getTime())/60000);
+    var runHTML="";
+    if(elapsedMin>sleepCap(type)&&!runawayDismissed[c.id]){
+      runHTML='<div class="runaway">⚠️ '+esc(firstName(c.name))+' has been asleep '+fmtDur(elapsedMin)+
+        '. Did you forget to tap “Woke up”?'+
+        '<div class="runaway-acts"><button class="btn btn-sm btn-primary" id="qFixWake">Set wake time</button>'+
+        '<button class="btn btn-sm" id="qStillAsleep">Still asleep</button></div></div>';
+    }
     var capHTML="";
     if(type==="nap"){
       if(p.capMin){capHTML='<div class="cap-line" id="qCapLine">⏰ Wake by <b>'+to12(startM+p.capMin)+'</b> <span id="qCapCd"></span> · <span id="qCapChange" style="text-decoration:underline;cursor:pointer">change</span></div>';}
@@ -1598,7 +1640,7 @@ function renderQuickLog(){
     }
     el.innerHTML='<div class="status"><span class="emoji">😴</span></div>'+
       '<div class="qstate">'+esc(c.name)+' is asleep</div>'+
-      '<div class="timer" id="qTimer">0h 00m</div>'+
+      '<div class="timer" id="qTimer">0h 00m</div>'+runHTML+
       '<div class="qsub">Since '+to12(toMin(hmFromDate(start)))+' · will save as <b>'+(type==="night"?"🌙 night sleep":"☀️ nap")+'</b></div>'+
       '<div class="pair"><button class="bigp wake" id="qWake"><span class="ic">☀️</span>Woke up now</button>'+
       '<button class="bigp alt" id="qFeed2"><span class="ic">🍼</span>Log feed</button></div>'+
@@ -1610,6 +1652,8 @@ function renderQuickLog(){
     $("qAdjust").onclick=adjustStart;
     $("qFeed2").onclick=openFeed;
     $("qNote").onclick=logNote;
+    var _fw=document.getElementById("qFixWake");if(_fw)_fw.onclick=openLongSleep;
+    var _sa=document.getElementById("qStillAsleep");if(_sa)_sa.onclick=function(){runawayDismissed[c.id]=true;renderQuickLog();};
     [].forEach.call(el.querySelectorAll(".nudge [data-n]"),function(b){b.onclick=function(){nudgeStart(+b.getAttribute("data-n"));};});
     [].forEach.call(el.querySelectorAll(".cap-chips [data-cap]"),function(b){b.onclick=function(){setNapCap(+b.getAttribute("data-cap"));};});
     var _cc=$("qCapChange");if(_cc)_cc.onclick=function(){p.capMin=0;p.capAlerted=false;save();renderQuickLog();};
@@ -1746,6 +1790,12 @@ function wakeUp(){
   var start=new Date(p.start),end=new Date();
   var startHM=hmFromDate(start),endHM=hmFromDate(end);
   if(startHM===endHM){if(!confirm("That sleep is under a minute. Save it anyway?"))return;}
+  if(periodDur({start:startHM,end:endHM})>sleepCap(classifyType(startHM))){openLongSleep();return;}
+  commitWake(start,end);
+}
+function commitWake(start,end){
+  var c=activeClient();if(!c)return;
+  var startHM=hmFromDate(start),endHM=hmFromDate(end);
   var type=classifyType(startHM);
   var date=sleepDayFor(start);
   var period={type:type,start:startHM,end:endHM};
@@ -1760,6 +1810,41 @@ function wakeUp(){
   var fm=freshMilestones(c.id);save();
   var mext=fm.length?(" · 🎉 "+fm[fm.length-1].title):"";
   toastUndo((type==="night"?"🌙 Night sleep":"☀️ Nap")+" logged: "+fmtDur(periodDur(period))+nn+mext);
+}
+/* ---- long-sleep correction modal ---- */
+var longCtx=null, runawayDismissed={};
+function openLongSleep(){
+  var c=activeClient();if(!c)return;var p=state.pending[c.id];if(!p)return;
+  var start=new Date(p.start),now=new Date();
+  var type=classifyType(hmFromDate(start));
+  var dur=periodDur({start:hmFromDate(start),end:hmFromDate(now)});
+  longCtx={start:start};
+  $("longMsg").innerHTML=esc(firstName(c.name))+" has been marked asleep for <b>"+fmtDur(dur)+"</b>, since "+
+    to12(toMin(hmFromDate(start)))+". That is longer than a typical "+(type==="night"?"night":"nap")+
+    ". If you forgot to tap “Woke up”, set the real wake time below.";
+  $("longWake").value=hmFromDate(now);
+  updateLongDur();
+  $("longModal").classList.add("open");
+}
+function closeLongSleep(){$("longModal").classList.remove("open");longCtx=null;}
+function updateLongDur(){
+  if(!longCtx)return;
+  var v=$("longWake").value;
+  $("longDur").textContent=v?("Saves as "+fmtDur(periodDur({start:hmFromDate(longCtx.start),end:v}))+"."):"";
+}
+function saveLongSleep(){
+  if(!longCtx)return;
+  var v=$("longWake").value;if(!v){toast("Please set a wake time");return;}
+  var start=longCtx.start,mins=toMin(v),sm=toMin(hmFromDate(start));
+  var end=new Date(start);
+  end.setHours(Math.floor(mins/60),mins%60,0,0);
+  if(mins<=sm)end.setDate(end.getDate()+1);   /* crossed midnight */
+  if(end.getTime()>Date.now()+60000){toast("That wake time is in the future");return;}
+  var st=start;closeLongSleep();commitWake(st,end);
+  toast("✓ Wake time corrected");
+}
+function keepLongSleep(){
+  if(!longCtx)return;var st=longCtx.start;closeLongSleep();commitWake(st,new Date());
 }
 function cancelPending(){
   var c=activeClient();if(!c)return;
@@ -2217,7 +2302,12 @@ $("clearBtn").onclick=clearAll;
 
 [].forEach.call(document.querySelectorAll(".tab"),function(t){t.onclick=function(){showTab(t.getAttribute("data-tab"));};});
 
-document.addEventListener("keydown",function(e){if(e.key==="Escape"){closeClientModal();closeWeek();closeNoise();closeMilestones();closePast();closePlan();closeFeed();closeNappy();}});
+$("longX").onclick=closeLongSleep;
+$("longKeep").onclick=keepLongSleep;
+$("longSave").onclick=saveLongSleep;
+$("longWake").oninput=updateLongDur;
+$("longModal").onclick=function(ev){if(ev.target===$("longModal"))closeLongSleep();};
+document.addEventListener("keydown",function(e){if(e.key==="Escape"){closeLongSleep();closeClientModal();closeWeek();closeNoise();closeMilestones();closePast();closePlan();closeFeed();closeNappy();}});
 
 /* ---------------- init ---------------- */
 applyTheme();
