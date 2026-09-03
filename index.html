@@ -325,6 +325,10 @@
   .lead-consent input{margin-top:2px;width:18px;height:18px;flex:none;accent-color:#c7d2fe}
   .lead-consent a{color:#fff;text-decoration:underline}
   .lead-err{color:#ffd1d1;font-size:13px;min-height:16px}
+  .lead-ask{font-size:15px;font-weight:700;color:#f3f4ff;margin:2px 0 8px;text-align:left}
+  .lead-form button.lead-skip{display:block;width:100%;margin-top:6px;background:none;border:none;color:#c7d2fe;
+    font-size:14.5px;font-weight:600;text-decoration:underline;cursor:pointer;padding:14px 8px;font-family:inherit;box-shadow:none}
+  .lead-form button.lead-skip:hover{color:#fff;background:none}
   .lead-fine{color:#a9adda;font-size:11.5px;line-height:1.5;margin:18px auto 0;max-width:322px}
 
   /* ---------- Wake-window coach ---------- */
@@ -583,14 +587,16 @@
   <div class="lead-card">
     <div class="lead-moon">🌙</div>
     <h1>Sleep Log</h1>
-    <p class="lead-sub">A free, one-tap sleep &amp; feed tracker for your baby. Log naps, nights, wakings and feeds in seconds.</p>
+    <p class="lead-sub">One-tap sleep, feed and nappy tracking. Free, private, and it works offline.</p>
     <form id="leadForm" class="lead-form" novalidate>
-      <input id="leadEmail" type="email" inputmode="email" autocomplete="email" placeholder="you@email.com" aria-label="Your email" autofocus required>
-      <label class="lead-consent"><input type="checkbox" id="leadConsent"><span>Email me feedback requests, occasional sleep tips and updates. No spam, unsubscribe anytime. I accept the <a href="./privacy.html" target="_blank" rel="noopener">Privacy Policy</a>.</span></label>
-      <button id="leadBtn" type="submit">Get started →</button>
+      <div class="lead-ask">Want to know when new features land?</div>
+      <input id="leadEmail" type="email" inputmode="email" autocomplete="email" placeholder="you@email.com  (optional)" aria-label="Your email (optional)">
+      <label class="lead-consent"><input type="checkbox" id="leadConsent"><span>Email me when something new ships. No spam, unsubscribe any time. I accept the <a href="./privacy.html" target="_blank" rel="noopener">Privacy Policy</a>.</span></label>
+      <button id="leadBtn" type="submit">Start logging &rarr;</button>
+      <button id="leadSkip" type="button" class="lead-skip">Skip and start logging</button>
       <div id="leadErr" class="lead-err" role="alert"></div>
     </form>
-    <p class="lead-fine">Your sleep logs always stay private on your own device. We only use your email to ask how we can improve and to share the occasional tip.</p>
+    <p class="lead-fine">I'm a mum building this after bedtime. Leave your email and I'll tell you when new features land, and once I'll ask what's annoying you about the app. Nothing else.<br><br>Your baby's logs stay on this phone. Your email is kept separately and is never linked to them.</p>
   </div>
 </div>
 
@@ -723,7 +729,10 @@
     </div>
   </div>
 
-  <p style="text-align:center;margin:8px 0 16px"><a id="coffeeLink" class="coffee" target="_blank" rel="noopener" hidden>☕ Buy me a coffee</a></p>
+  <div id="coffeeWrap" style="text-align:center;margin:8px 0 16px" hidden>
+     <p style="font-size:13px;color:var(--muted);margin:0 0 8px">Sleep Log is free, and made by one mum after bedtime.</p>
+     <a id="coffeeLink" class="coffee" target="_blank" rel="noopener">☕ Buy the mum who made this a coffee</a>
+   </div>
   <p class="note"><b>📱 On a phone:</b> open this page and use your browser's <b>“Add to Home Screen”</b> to launch it fullscreen like an app.<br>All data is stored privately in this browser/device only. Nothing is uploaded, and it works fully offline. Data does not sync between devices, so use <b>Backup</b> / <b>Restore</b> to move it. Keep the .html file somewhere safe.<br>Sleep-duration ranges and nap-timing/wake-window suggestions are <b>general guidance only</b> (aligned with AAP / National Sleep Foundation), not medical advice. Every baby is different, so follow your baby's cues and your pediatrician or health visitor. See our <a href="./privacy.html" target="_blank" rel="noopener" style="color:var(--accent)">Privacy Policy &amp; disclaimer</a>.</p>
 
   </section>
@@ -939,7 +948,8 @@
 var STORE="sleepLog_v1";
 /* Optional support link. Paste your Buy Me a Coffee or Ko-fi URL to show a small "Buy me a coffee" button in the footer. Leave "" to hide it. Does not affect offline use. */
 var COFFEE_URL="https://buymeacoffee.com/mumonthemoney";
-function applyCoffee(){var a=$("coffeeLink");if(!a)return;if(COFFEE_URL){a.href=COFFEE_URL;a.hidden=false;}else{a.hidden=true;}}
+function applyCoffee(){var a=$("coffeeLink"),w=$("coffeeWrap");if(!a)return;
+  if(COFFEE_URL){a.href=COFFEE_URL;if(w)w.hidden=false;}else{if(w)w.hidden=true;}}
 var state=load();
 var editingEntryId=null;
 var editingClientId=null;
@@ -2469,11 +2479,15 @@ render();
         err=document.getElementById("leadErr"),
         btn=document.getElementById("leadBtn"),
         consent=document.getElementById("leadConsent");
+    var skip=document.getElementById("leadSkip");
+    function dismiss(){ try{ls(0,LKEY,"skipped");}catch(e){} hide(); }
+    if(skip) skip.addEventListener("click",dismiss);
     form.addEventListener("submit",function(ev){
       ev.preventDefault();
       var email=(input.value||"").trim();
-      if(!valid(email)){err.textContent="Please enter a valid email address.";input.focus();return;}
-      if(consent && !consent.checked){err.textContent="Please tick the box to continue.";return;}
+      if(!email){ dismiss(); return; }   /* email is optional: blank just starts the app */
+      if(!valid(email)){err.textContent="That email does not look right. Leave it blank to skip.";input.focus();return;}
+      if(consent && !consent.checked){err.textContent="Please tick the box so I can email you, or leave it blank to skip.";return;}
       err.textContent=""; btn.disabled=true; btn.textContent="One sec…";
       ls(0,LKEY,email);
       var done=false, finish=function(){if(done)return;done=true;hide();};

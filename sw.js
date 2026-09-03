@@ -1,5 +1,5 @@
 /* Sleep Log service worker: caches the app shell so it works offline after first load. */
-var CACHE = "sleeplog-v9";
+var CACHE = "sleeplog-v10";
 var ASSETS = [
   "./",
   "./index.html",
