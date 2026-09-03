@@ -288,7 +288,7 @@
 
   /* ---------- Print ---------- */
   @media print{
-    header,.header-tools,.entry-head .acts,.tools,#entryForm,.section-head .btn,#addEntryBtn,.client-bar .spacer,.note,#toast,.modal-back,#quickSection,#dashSection,#backupReminder,.tabbar,.qa,.view-title{display:none !important}
+    header,.header-tools,.entry-head .acts,.tools,#entryForm,.section-head .btn,#addEntryBtn,.client-bar .spacer,.note,#toast,.modal-back,#quickSection,#dashSection,#backupReminder,.tabbar,.qa,.view-title,.support-card{display:none !important}
     .view{display:block !important}
     main{padding-bottom:0}
     body{background:#fff}
@@ -477,6 +477,14 @@
   .feed-chip[data-feededit],.diaper-chip[data-napedit]{cursor:pointer}
   .feed-chip[data-feededit]:hover,.diaper-chip[data-napedit]:hover{border-color:var(--accent);color:var(--accent)}
 
+  .support-card{display:flex;align-items:center;gap:14px;background:var(--surface);border:1px solid var(--border);
+    border-radius:var(--radius);box-shadow:var(--shadow);padding:14px 16px;margin-bottom:16px;flex-wrap:wrap}
+  .support-card .em{font-size:29px;line-height:1;flex:none}
+  .support-card .txt{flex:1;min-width:160px}
+  .support-card .txt b{font-size:15px;display:block;color:var(--text)}
+  .support-card .txt span{font-size:12.5px;color:var(--muted);line-height:1.4;display:block;margin-top:2px}
+  .support-card .coffee{flex:none;white-space:normal;text-align:center;line-height:1.35}
+
   /* runaway-sleep warning */
   .runaway{margin:12px auto 0;max-width:420px;background:#fff4e5;border:1px solid #f0c987;color:#5a3d00;
     border-radius:16px;padding:13px 14px;font-size:13.5px;font-weight:700;text-align:center;line-height:1.45}
@@ -645,6 +653,12 @@
     <div class="card dash" id="dashCard"></div>
   </div>
 
+  <div class="support-card coffee-wrap" hidden>
+     <span class="em">&#9749;</span>
+     <span class="txt"><b>Sleep Log is free</b><span>Built after bedtime, and free for everyone. If it is helping your family, a coffee keeps it going.</span></span>
+     <a class="coffee coffee-link" target="_blank" rel="noopener">&#9749; Buy this mum a coffee</a>
+   </div>
+
   </section>
   <section class="view" data-view="log">
   <div class="view-title">Log &amp; edit a day</div>
@@ -716,6 +730,11 @@
   </section>
   <section class="view" data-view="more">
   <div class="view-title">Tools &amp; settings</div>
+   <div class="support-card coffee-wrap" hidden>
+     <span class="em">&#9749;</span>
+     <span class="txt"><b>Sleep Log is free</b><span>Built after bedtime, and free for everyone. If it is helping your family, a coffee keeps it going.</span></span>
+     <a class="coffee coffee-link" target="_blank" rel="noopener">&#9749; Buy this mum a coffee</a>
+   </div>
 
   <!-- Data tools -->
   <div class="section card" id="toolsCard">
@@ -729,11 +748,7 @@
     </div>
   </div>
 
-  <div id="coffeeWrap" style="text-align:center;margin:8px 0 16px" hidden>
-     <p style="font-size:13px;color:var(--muted);margin:0 0 8px">Sleep Log is free, and made by one mum after bedtime.</p>
-     <a id="coffeeLink" class="coffee" target="_blank" rel="noopener">☕ Buy the mum who made this a coffee</a>
-   </div>
-  <p class="note"><b>📱 On a phone:</b> open this page and use your browser's <b>“Add to Home Screen”</b> to launch it fullscreen like an app.<br>All data is stored privately in this browser/device only. Nothing is uploaded, and it works fully offline. Data does not sync between devices, so use <b>Backup</b> / <b>Restore</b> to move it. Keep the .html file somewhere safe.<br>Sleep-duration ranges and nap-timing/wake-window suggestions are <b>general guidance only</b> (aligned with AAP / National Sleep Foundation), not medical advice. Every baby is different, so follow your baby's cues and your pediatrician or health visitor. See our <a href="./privacy.html" target="_blank" rel="noopener" style="color:var(--accent)">Privacy Policy &amp; disclaimer</a>.</p>
+    <p class="note"><b>📱 On a phone:</b> open this page and use your browser's <b>“Add to Home Screen”</b> to launch it fullscreen like an app.<br>All data is stored privately in this browser/device only. Nothing is uploaded, and it works fully offline. Data does not sync between devices, so use <b>Backup</b> / <b>Restore</b> to move it. Keep the .html file somewhere safe.<br>Sleep-duration ranges and nap-timing/wake-window suggestions are <b>general guidance only</b> (aligned with AAP / National Sleep Foundation), not medical advice. Every baby is different, so follow your baby's cues and your pediatrician or health visitor. See our <a href="./privacy.html" target="_blank" rel="noopener" style="color:var(--accent)">Privacy Policy &amp; disclaimer</a>.</p>
 
   </section>
   </div>
@@ -948,8 +963,10 @@
 var STORE="sleepLog_v1";
 /* Optional support link. Paste your Buy Me a Coffee or Ko-fi URL to show a small "Buy me a coffee" button in the footer. Leave "" to hide it. Does not affect offline use. */
 var COFFEE_URL="https://buymeacoffee.com/mumonthemoney";
-function applyCoffee(){var a=$("coffeeLink"),w=$("coffeeWrap");if(!a)return;
-  if(COFFEE_URL){a.href=COFFEE_URL;if(w)w.hidden=false;}else{if(w)w.hidden=true;}}
+function applyCoffee(){
+  [].forEach.call(document.querySelectorAll(".coffee-link"),function(a){a.href=COFFEE_URL||"#";});
+  [].forEach.call(document.querySelectorAll(".coffee-wrap"),function(w){w.hidden=!COFFEE_URL;});
+}
 var state=load();
 var editingEntryId=null;
 var editingClientId=null;
