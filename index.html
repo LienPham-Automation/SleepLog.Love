@@ -291,6 +291,7 @@
     header,.header-tools,.entry-head .acts,.tools,#entryForm,.section-head .btn,#addEntryBtn,.client-bar .spacer,.note,#toast,.modal-back,#quickSection,#dashSection,#backupReminder,.tabbar,.qa,.view-title,.support-card{display:none !important}
     .view{display:block !important}
     main{padding-bottom:0}
+    body{padding-left:0 !important}
     body{background:#fff}
     .card{box-shadow:none;border:1px solid #ccc;break-inside:avoid}
     .entry{break-inside:avoid}
@@ -485,6 +486,51 @@
   .support-card .txt span{font-size:12.5px;color:var(--muted);line-height:1.4;display:block;margin-top:2px}
   .support-card .coffee{flex:none;white-space:normal;text-align:center;line-height:1.35}
 
+  /* ---------- desktop / laptop polish ---------- */
+  @media(min-width:760px){
+    /* stop wide rows stranding their values on the far right */
+    .today-ring{max-width:640px}
+    .rlegend{max-width:430px}
+    .dash-pred{max-width:640px}
+    .tl-item .t{min-width:120px}
+    .support-card{max-width:640px}
+  }
+  /* tablet: keep a bottom bar, but tuck it to the content width */
+  @media(min-width:760px) and (max-width:1023px){
+    .tabbar{left:50%;right:auto;transform:translateX(-50%);width:100%;max-width:1080px;
+      border-radius:18px 18px 0 0;padding-left:12px;padding-right:12px}
+  }
+  /* laptop and up: the bottom bar becomes a left sidebar */
+  .side-brand{display:none}
+  @media(min-width:1024px){
+    body{padding-left:236px}
+    .tabbar{left:0;right:auto;top:0;bottom:0;width:236px;transform:none;max-width:none;
+      flex-direction:column;align-items:stretch;justify-content:flex-start;gap:4px;
+      padding:18px 12px;border-top:none;border-right:1px solid var(--border);border-radius:0;
+      box-shadow:2px 0 18px rgba(30,25,70,.05);
+      background:linear-gradient(170deg,#2c2a63,#3b357e 60%,#4a3f9e)}
+    .side-brand{display:flex;align-items:center;gap:9px;color:#fff;font-weight:700;font-size:17px;
+      padding:4px 10px 16px}
+    .side-brand span{font-size:21px}
+    .tab{flex:0 0 auto;display:flex;align-items:center;gap:12px;text-align:left;
+      padding:11px 13px;border-radius:12px;font-size:14.5px;color:#cfd2f0}
+    .tab .e{display:inline;font-size:17px;margin:0;width:20px;text-align:center;line-height:1}
+    .tab.on{background:#fff;color:var(--indigo);font-weight:700;box-shadow:0 6px 16px rgba(0,0,0,.18)}
+    html[data-night="on"] .tabbar{background:linear-gradient(170deg,#1a0d08,#2b1509 60%,#3a1d0c)}
+    html[data-night="on"] .tab.on{background:#3a1d0c;color:#f0c4a4}
+    main{padding-bottom:40px}
+    header .header-inner{padding-left:10px}
+    /* the sidebar already says Sleep Log, so drop the duplicate in the header */
+    header .brand{display:none}
+    header .header-tools{margin-left:0}
+  }
+
+  .range-row{display:flex;gap:6px;flex-wrap:wrap;margin:0 0 14px}
+  .range-row button{flex:1 1 auto;min-width:64px;background:var(--surface-2);border:1px solid var(--border);
+    border-radius:999px;padding:8px 10px;font-size:12.5px;font-weight:700;color:var(--text);cursor:pointer;font-family:inherit}
+  .range-row button.on{background:var(--accent);border-color:var(--accent);color:#fff}
+  .range-custom{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:10px;margin:-6px 0 14px}
+
   /* runaway-sleep warning */
   .runaway{margin:12px auto 0;max-width:420px;background:#fff4e5;border:1px solid #f0c987;color:#5a3d00;
     border-radius:16px;padding:13px 14px;font-size:13.5px;font-weight:700;text-align:center;line-height:1.45}
@@ -578,6 +624,166 @@
   html[data-night="on"] .ic-night,html[data-night="on"] .ic-nap,html[data-night="on"] .ic-feed,
   html[data-night="on"] .ic-nappy,html[data-night="on"] .ic-asleep{background:#3a1d0c}
 
+
+  /* ================= DESKTOP DASHBOARD ================= */
+  /* phone and tablet: every desktop-only piece stays hidden */
+  .side-baby,.side-foot,.desk-tab,.d-in,.d-card,.glance-h,.hero-sub,.d-range,.side-theme,.lb-l{display:none}
+  .glance,.rail{display:contents}
+  /* flex column so the two wrappers above can keep the old phone order */
+  .card.dash{display:flex;flex-direction:column}
+  .dash .qa{order:0}
+  .dash .today-ring{order:1}
+  .dash .dash-tiles{order:2}
+  .dash .dash-pred{order:3}
+  .dash .plan-block{order:4}
+  .dash .dash-tl,.dash .dash-empty{order:5}
+  /* flex never collapses margins, so drop the one that used to collapse into the next block */
+  .card.dash .dash-pred{margin-bottom:0}
+
+  @media(min-width:1024px){
+    /* ---------- sidebar ---------- */
+    body{padding-left:248px}
+    .tabbar{width:248px;padding:20px 14px;gap:3px}
+    .side-brand{align-items:center;gap:10px;padding:0 4px 16px}
+    .side-brand .m{font-size:23px;line-height:1}
+    .side-brand .sb-name{min-width:0}
+    .side-brand .sb-name b{display:block;font-size:17px;font-weight:700;line-height:1.15}
+    .side-brand .sb-name small{display:block;font-size:10.5px;font-weight:600;color:#c3c7ea}
+    .side-theme{display:block;flex:none;margin-left:auto;width:28px;height:28px;padding:0;line-height:1;
+      background:rgba(255,255,255,.14);border:1px solid rgba(255,255,255,.22);color:#fff;
+      border-radius:9px;font-size:13px;cursor:pointer;font-family:inherit}
+    .side-theme:hover{background:rgba(255,255,255,.26)}
+    .side-baby{display:flex;align-items:center;gap:10px;position:relative;
+      background:rgba(255,255,255,.13);border:1px solid rgba(255,255,255,.2);
+      border-radius:15px;padding:10px;margin-bottom:14px}
+    .side-baby .av{width:40px;height:40px;flex:none;border-radius:50%;background:rgba(255,255,255,.22);
+      display:flex;align-items:center;justify-content:center;font-size:16px;font-weight:700;color:#fff}
+    .side-baby .sb-t{flex:1;min-width:0}
+    .side-baby .sb-t b{display:block;font-size:14.5px;color:#fff;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+    .side-baby .sb-t small{display:block;font-size:11px;color:#c9ccf0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+    .side-baby .sb-b{position:relative;z-index:3;flex:none;width:24px;height:24px;padding:0;line-height:1;
+      border-radius:8px;border:1px solid rgba(255,255,255,.22);background:rgba(255,255,255,.1);
+      color:#fff;font-size:12px;cursor:pointer;font-family:inherit}
+    .side-baby .sb-b:hover{background:rgba(255,255,255,.26)}
+    .side-baby .sb-sel{position:absolute;inset:0;width:100%;height:100%;opacity:0;border:none;cursor:pointer;z-index:2}
+    .side-baby .sb-add{width:100%;background:rgba(255,255,255,.14);border:1px solid rgba(255,255,255,.24);
+      color:#fff;border-radius:12px;padding:10px;font-size:13.5px;font-weight:700;cursor:pointer;font-family:inherit}
+    .desk-tab{display:flex}
+    .d-in{display:inline}
+    .tabbar>.tab[data-tab="more"]{display:none}
+    .side-foot{display:flex;flex-direction:column;gap:3px;margin-top:auto;
+      border-top:1px solid rgba(255,255,255,.15);padding-top:10px}
+    .side-item{display:flex;align-items:center;gap:12px;text-align:left;padding:11px 13px;
+      border-radius:12px;font-size:14.5px;font-weight:600;color:#cfd2f0;
+      background:none;border:none;cursor:pointer;font-family:inherit}
+    .side-item .e{width:20px;font-size:17px;text-align:center;line-height:1}
+    .side-item:hover{background:rgba(255,255,255,.1)}
+    .side-item.on{background:#fff;color:var(--indigo,#2c2a63);font-weight:700;box-shadow:0 6px 16px rgba(0,0,0,.18)}
+    html[data-night="on"] .side-item.on{background:#3a1d0c;color:#f0c4a4}
+
+    /* the sidebar carries the brand and the tools, so the top bar goes */
+    header{display:none}
+    main{max-width:1180px;padding:20px 24px 40px}
+
+    /* ---------- top line: greeting left, range right ---------- */
+    .card.client-bar.greet{display:flex;align-items:center;justify-content:space-between;gap:16px;
+      background:none;border:none;border-radius:0;box-shadow:none;padding:0;margin-bottom:14px;color:var(--text)}
+    .greet .art,.greet .g-av,.greet .g-pills{display:none}
+    .greet .g-row{flex:1;min-width:0;gap:0}
+    .greet h2{font-size:23px;color:var(--text)}
+    .greet .g-who{font-size:13px;font-weight:600;color:var(--muted);margin-top:1px}
+    html[data-theme="dark"] .card.client-bar.greet,html[data-night="on"] .card.client-bar.greet{color:var(--text)}
+    .d-range{display:inline-block;flex:none;background:var(--surface);border:1px solid var(--border);
+      border-radius:12px;padding:9px 14px;font-size:13px;font-weight:700;color:var(--text);
+      box-shadow:var(--shadow);cursor:pointer;font-family:inherit}
+    .d-range:hover{border-color:var(--accent)}
+
+    /* ---------- hero strip ---------- */
+    .card.quick{display:grid;grid-template-columns:auto minmax(0,1fr) auto;
+      grid-template-areas:"em state acts" "em sub acts";
+      align-items:center;column-gap:14px;text-align:left;padding:16px 18px;
+      background:var(--surface);margin-bottom:0}
+    /* while a sleep is running the extra controls sit under the text, not under the emoji */
+    .card.quick>*{grid-column:2/-1}
+    .quick .nudge,.quick .qact,.quick .cap-chips,.quick .runaway-acts{justify-content:flex-start}
+    .quick .runaway{margin:12px 0 0;max-width:none;text-align:left}
+    .quick .cap-line,.quick .cap-alert,.quick .timer{text-align:left}
+    .quick .status{grid-area:em;align-self:center}
+    .quick .status .emoji{font-size:34px;margin:0}
+    .quick .qstate{grid-area:state;align-self:end;font-size:20px;line-height:1.2;margin:0}
+    .quick .hero-sub{display:block;grid-area:sub;align-self:start;margin:2px 0 0;
+      font-size:13px;font-weight:600;color:var(--muted)}
+    .quick .pair{grid-area:acts;align-self:center;margin:0;max-width:none}
+    .quick .bigp{flex:none;flex-direction:row;gap:9px;padding:14px 22px;border-radius:15px}
+    .quick .bigp .ic{font-size:19px}
+    .quick .qsub,.quick .coach,.quick .today-chip,.quick .type-hint{display:none}
+    .quick .timer{margin-top:10px}
+
+    /* ---------- quick actions ---------- */
+    .dash .qa{grid-area:qa;margin:0}
+    .qa .lb-s{display:none}
+    .qa .lb-l{display:inline}
+    .qa button{padding:11px;font-size:13px}
+    .qa .e{display:inline;margin:0 6px 0 0;font-size:15px}
+    #qaPast{display:none}
+    #dashSection .section-head{display:none}
+    #dashSection{margin-bottom:0}
+
+    /* ---------- two columns ---------- */
+    .card.dash{display:grid;grid-template-columns:1.55fr 1fr;
+      grid-template-areas:"qa qa" "glance rail";gap:14px;align-items:start;
+      background:none;border:none;box-shadow:none;padding:0}
+    .glance{grid-area:glance;display:block;background:var(--surface);border:1px solid var(--border);
+      border-radius:var(--radius);box-shadow:var(--shadow);padding:16px}
+    .rail{grid-area:rail;display:flex;flex-direction:column;gap:12px}
+    .glance-h{display:flex;align-items:center;margin-bottom:10px;font-size:10.5px;font-weight:700;
+      letter-spacing:.07em;text-transform:uppercase;color:var(--muted)}
+    .gh-plan{margin-left:auto;background:var(--surface-2);border:1px solid var(--border);
+      border-radius:999px;padding:4px 10px;font-size:10.5px;font-weight:700;letter-spacing:.04em;
+      text-transform:none;color:var(--accent);cursor:pointer;font-family:inherit}
+    .gh-plan:hover{border-color:var(--accent)}
+    .glance .today-ring{max-width:none;margin-bottom:0}
+    .glance .rlegend{max-width:none}
+    .glance .dash-tiles,.glance .dash-tl,.glance .dash-empty{margin-top:13px}
+    .rail .dash-pred{margin-top:0;max-width:none}
+    .rail .plan-block{margin-top:0;background:var(--surface);border:1px solid var(--border);
+      border-radius:var(--radius);box-shadow:var(--shadow);padding:16px}
+    .d-card{display:block;background:var(--surface);border:1px solid var(--border);
+      border-radius:var(--radius);box-shadow:var(--shadow);padding:16px}
+    .d-h{margin-bottom:10px;font-size:10.5px;font-weight:700;letter-spacing:.07em;
+      text-transform:uppercase;color:var(--muted)}
+    .d-p{margin:0;font-size:12.5px;font-weight:600;color:var(--muted);line-height:1.45}
+    .qs div{display:flex;align-items:center;gap:9px;padding:6px 0;font-size:13px;font-weight:600}
+    .qs div .n{margin-left:auto;color:var(--muted);font-variant-numeric:tabular-nums}
+    .exp{display:flex;gap:7px;margin-top:9px}
+    .exp button{flex:1;background:var(--surface-2);border:1px solid var(--border);border-radius:10px;
+      padding:9px 4px;font-size:11.5px;font-weight:700;color:var(--text);
+      cursor:pointer;font-family:inherit}
+    .exp button:hover{border-color:var(--accent)}
+    .exp button.p{background:var(--accent);color:#fff;border-color:var(--accent)}
+    .support-card{max-width:none;margin:14px 0 0}
+  }
+
+  @media(min-width:1024px){
+    /* the phone stacking order must not leak into the right rail */
+    .dash .rail>*{order:0}
+    /* baby card: fit name + meta beside the two controls */
+    .side-baby{gap:8px}
+    .side-baby .av{width:36px;height:36px;font-size:15px}
+    .side-baby .sb-b{width:22px;height:22px;font-size:11px}
+    /* glance card: mock density */
+    .glance .ring{width:112px;height:112px}
+    .glance .ring .rv{font-size:21px}
+    .glance .dash-tile{padding:10px 6px}
+    .glance .dash-tile .ti{width:30px;height:30px;border-radius:10px;font-size:15px;margin:0 auto 5px}
+    .glance .dash-tile .v{font-size:15px}
+    .glance .dash-tl h4{margin-bottom:2px}
+    .glance .tl-item{padding:7px 0;font-size:13px}
+    .glance .tl-item .t{width:104px;min-width:104px}
+    .glance .tl-item .ic{width:28px;height:28px;border-radius:9px;font-size:14px}
+    /* even spacing down the page */
+    #quickSection{margin-bottom:12px}
+  }
 </style>
 </head>
 <body>
@@ -649,7 +855,7 @@
 
   <!-- Today dashboard -->
   <div class="section" id="dashSection">
-    <div class="section-head"><h2>Today</h2><div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap"><span id="dashDate" style="font-size:13px;color:var(--muted)"></span><button class="btn btn-sm" id="planBtn">🗓 Plan</button><button class="btn btn-sm" id="msBtn">🏅 Milestones</button><button class="btn btn-sm btn-primary" id="weekBtn">📊 Weekly summary</button></div></div>
+    <div class="section-head"><h2>Today</h2><div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap"><span id="dashDate" style="font-size:13px;color:var(--muted)"></span><button class="btn btn-sm" id="planBtn">🗓 Plan</button><button class="btn btn-sm" id="msBtn">🏅 Milestones</button><button class="btn btn-sm btn-primary" id="weekBtn">📊 Summary &amp; export</button></div></div>
     <div class="card dash" id="dashCard"></div>
   </div>
 
@@ -755,11 +961,19 @@
 </main>
 
 <nav class="tabbar" id="tabbar">
+  <div class="side-brand" aria-hidden="true"><span class="m">🌙</span><span class="sb-name"><b>Sleep Log</b><small>Sleep diary</small></span><button type="button" class="side-theme" id="sideThemeBtn" title="Toggle dark mode" aria-label="Toggle dark mode">🌙</button></div>
+  <div class="side-baby" id="sideBaby"></div>
   <button class="tab on" data-tab="home"><span class="e">🏠</span>Home</button>
-  <button class="tab" data-tab="log"><span class="e">➕</span>Log</button>
+  <button class="tab" data-tab="log"><span class="e">➕</span><span>Log<span class="d-in"> &amp; edit</span></span></button>
   <button class="tab" data-tab="history"><span class="e">📖</span>History</button>
+  <button class="tab desk-tab" data-tab="reports"><span class="e">📊</span>Reports</button>
   <button class="tab" data-tab="sounds"><span class="e">🔊</span>Sounds</button>
+  <button class="tab desk-tab" data-tab="milestones"><span class="e">🏅</span>Milestones</button>
   <button class="tab" data-tab="more"><span class="e">☰</span>More</button>
+  <div class="side-foot">
+    <button type="button" class="side-item" id="sideNightBtn"><span class="e">🕯️</span>Night mode</button>
+    <button type="button" class="side-item" id="sideMoreBtn"><span class="e">⚙️</span>Tools &amp; backup</button>
+  </div>
 </nav>
 
 <!-- Client modal -->
@@ -789,8 +1003,21 @@
 <div class="modal-back wide" id="weekModal">
   <div class="modal" style="max-width:560px">
     <div class="modal-close-row"><button type="button" class="modal-x" id="weekX" aria-label="Close">✕</button></div>
+    <div class="range-row" id="rangeRow">
+      <button type="button" data-rp="7">7 days</button>
+      <button type="button" data-rp="14">14 days</button>
+      <button type="button" data-rp="30">30 days</button>
+      <button type="button" data-rp="90">90 days</button>
+      <button type="button" data-rp="all">All</button>
+      <button type="button" data-rp="custom">Custom</button>
+    </div>
+    <div class="range-custom" id="rangeCustom" hidden>
+      <label class="field">From<input type="date" id="rFrom"></label>
+      <label class="field">To<input type="date" id="rTo"></label>
+    </div>
     <div id="weekReport"></div>
     <div class="modal-actions">
+      <button class="btn" id="weekCsvBtn">⬇ CSV</button>
       <button class="btn" id="weekPrintBtn">🖨 Print / PDF</button>
       <button class="btn btn-primary" id="weekCloseBtn">Done</button>
     </div>
@@ -1154,13 +1381,17 @@ function activeEntries(){var id=state.activeClientId;if(!id)return [];return (st
 /* ---------------- render ---------------- */
 function showTab(name){
   if(name==="sounds"){openNoise();return;}
+  if(name==="reports"){openWeek();return;}
+  if(name==="milestones"){openMilestones();return;}
   [].forEach.call(document.querySelectorAll(".view"),function(v){v.classList.toggle("active",v.getAttribute("data-view")===name);});
   [].forEach.call(document.querySelectorAll(".tab"),function(t){t.classList.toggle("on",t.getAttribute("data-tab")===name);});
+  var _sm=document.getElementById("sideMoreBtn");if(_sm)_sm.classList.toggle("on",name==="more");
   try{window.scrollTo(0,0);}catch(e){}
 }
 function render(){
   renderClientSelect();
   renderClientBar();
+  renderSideBaby();
   renderQuickLog();
   renderDashboard();
   renderBackupReminder();
@@ -1186,7 +1417,8 @@ function renderClientBar(){
   if(c.dob)sub+='<span>DOB '+c.dob+'</span>';
   el.className="card client-bar greet";
   var along=ageStrLong(c.dob);
-  var who=esc(c.name)+(along?" is "+along:"");
+  var who=esc(c.name)+(along?" is "+along:"")+
+    '<span class="d-in"> \u00b7 '+(new Date()).toLocaleDateString(undefined,{weekday:"long",day:"numeric",month:"short"})+'</span>';
   var art='<div class="art">'+
     '<svg class="a-moon" viewBox="0 0 100 100"><path d="M62 8a44 44 0 1 0 30 62A38 38 0 0 1 62 8z" fill="#ffe1a8"/></svg>'+
     '<svg class="a-c1" viewBox="0 0 200 90"><g fill="#fff"><ellipse cx="60" cy="58" rx="46" ry="30"/><ellipse cx="108" cy="46" rx="40" ry="34"/><ellipse cx="148" cy="60" rx="36" ry="26"/><rect x="40" y="56" width="120" height="28" rx="14"/></g></svg>'+
@@ -1201,7 +1433,9 @@ function renderClientBar(){
     '<div class="g-row"><div class="g-av">'+(initials||"?")+'</div>'+
     '<div><h2>'+greetWord()+'!</h2><div class="g-who">'+who+'</div></div></div>'+
     '<div class="g-pills">'+pills+'</div>'+
+    '<button type="button" class="d-range" id="dRangeBtn">\uD83D\uDCC5 '+esc(rangeLabel())+' \u25be</button>'+
     (c.notes?'<div style="position:relative;z-index:2;font-size:12.5px;color:#cfd2f5;margin-top:10px">'+esc(c.notes)+'</div>':'');
+  var _dr=document.getElementById("dRangeBtn");if(_dr)_dr.onclick=openWeek;
 }
 
 function renderSummary(){
@@ -1250,28 +1484,85 @@ function card(label,val,unit,hint){
 /* ---------------- Weekly summary (screenshot-friendly) ---------------- */
 function fmtShortDate(s){var d=new Date(s+"T00:00");return d.toLocaleDateString(undefined,{day:"numeric",month:"short"});}
 function wtile(v,l){return '<div class="t"><div class="v">'+v+'</div><div class="l">'+l+'</div></div>';}
+/* ---------------- report date range ---------------- */
+var reportRange={preset:"7",from:"",to:""};
+function shiftDate(d,days){var x=new Date(d);x.setDate(x.getDate()+days);return x;}
+function rangeBounds(){
+  var today=new Date();
+  if(reportRange.preset==="custom"&&reportRange.from&&reportRange.to){
+    var a=reportRange.from,b=reportRange.to;
+    return {from:(a<=b?a:b),to:(a<=b?b:a)};
+  }
+  if(reportRange.preset==="all")return {from:"0000-01-01",to:dateStr(today)};
+  var n=parseInt(reportRange.preset,10)||7;
+  return {from:dateStr(shiftDate(today,-(n-1))),to:dateStr(today)};
+}
+/* entries inside the chosen range, oldest first */
+function rangeEntries(){
+  var b=rangeBounds();
+  return activeEntries().filter(function(e){return e.date>=b.from&&e.date<=b.to;})
+    .slice().sort(function(x,y){return x.date<y.date?-1:1;});
+}
+function rangeLabel(){
+  var b=rangeBounds();
+  if(reportRange.preset==="all")return "All time";
+  if(reportRange.preset==="custom")return fmtShortDate(b.from)+" to "+fmtShortDate(b.to);
+  return "Last "+reportRange.preset+" days";
+}
+function rangeSlug(){
+  var b=rangeBounds();
+  return reportRange.preset==="all"?"all":(b.from+"_to_"+b.to);
+}
 function openWeek(){
   var c=activeClient();
   if(!c){toast("Add a baby profile first");return;}
-  var entries=activeEntries(); // newest first
-  if(!entries.length){toast("No entries to summarise yet");return;}
-  var recent=entries.slice(0,7).slice().sort(function(a,b){return a.date<b.date?-1:1;}); // up to 7 most recent, oldest→newest
+  if(!activeEntries().length){toast("No entries to summarise yet");return;}
+  var recent=rangeEntries();
+  syncRangeUI();
+  if(!recent.length){
+    $("weekReport").innerHTML='<div class="week-card"><div class="week-foot" style="padding:26px 10px">No entries in '+esc(rangeLabel().toLowerCase())+'. Try a longer range.</div></div>';
+    $("weekModal").classList.add("open");return;
+  }
   var agg=recent.map(metrics),n=agg.length;
   var avg=function(f){return agg.reduce(function(s,m){return s+f(m);},0)/n;};
   var avgTotal=avg(function(m){return m.total;}),avgNight=avg(function(m){return m.night;}),avgNaps=avg(function(m){return m.naps;}),avgWake=avg(function(m){return m.wakings;});
   var totFeeds=recent.reduce(function(s,e){return s+((e.feeds||[]).length);},0);
   var maxTotal=Math.max.apply(null,agg.map(function(m){return m.total;}).concat([600]));
   var initials=c.name.trim().split(/\s+/).map(function(w){return w[0];}).slice(0,2).join("").toUpperCase();
-  var range=fmtShortDate(recent[0].date)+(recent.length>1?" – "+fmtShortDate(recent[recent.length-1].date):"");
+  var b=rangeBounds();
+  var range=rangeLabel()+" · "+fmtShortDate(recent[0].date)+(recent.length>1?" to "+fmtShortDate(recent[recent.length-1].date):"");
   var age=ageStr(c.dob);
-  var rowsHTML=recent.map(function(e,i){
-    var m=agg[i],d=new Date(e.date+"T00:00");
-    var lbl=d.toLocaleDateString(undefined,{weekday:"short",day:"numeric"});
-    var nw=m.night/maxTotal*100,dw=m.day/maxTotal*100;
-    return '<div class="wd-row"><span class="wd-date">'+lbl+'</span>'+
+  /* up to 31 days: one bar per day. Longer: weekly averages, so a 90-day report stays readable. */
+  var bars=[],bucketed=false;
+  if(recent.length<=31){
+    bars=recent.map(function(e,i){
+      var m=agg[i],d=new Date(e.date+"T00:00");
+      return {lbl:d.toLocaleDateString(undefined,{weekday:"short",day:"numeric"}),night:m.night,day:m.day,total:m.total,wake:m.wakings};
+    });
+  }else{
+    bucketed=true;
+    var buckets={};
+    recent.forEach(function(e,i){
+      var d=new Date(e.date+"T00:00");
+      var wk=shiftDate(d,-((d.getDay()+6)%7));           /* Monday of that week */
+      var k=dateStr(wk);
+      if(!buckets[k])buckets[k]={n:0,night:0,day:0,total:0,wake:0,d:wk};
+      var m=agg[i],bk=buckets[k];
+      bk.n++;bk.night+=m.night;bk.day+=m.day;bk.total+=m.total;bk.wake+=m.wakings;
+    });
+    bars=Object.keys(buckets).sort().map(function(k){
+      var b2=buckets[k];
+      return {lbl:b2.d.toLocaleDateString(undefined,{day:"numeric",month:"short"}),
+        night:b2.night/b2.n,day:b2.day/b2.n,total:b2.total/b2.n,wake:b2.wake/b2.n};
+    });
+  }
+  maxTotal=Math.max.apply(null,bars.map(function(x){return x.total;}).concat([600]));
+  var rowsHTML=bars.map(function(x){
+    var nw=x.night/maxTotal*100,dw=x.day/maxTotal*100;
+    return '<div class="wd-row"><span class="wd-date">'+x.lbl+'</span>'+
       '<div class="wd-bar"><div class="bn" style="width:'+nw+'%"></div><div class="bp" style="width:'+dw+'%"></div></div>'+
-      '<span class="wd-total">'+fmtHrs(m.total)+'h</span>'+
-      '<span class="wd-wake">'+m.wakings+' wk</span></div>';
+      '<span class="wd-total">'+fmtHrs(x.total)+'h</span>'+
+      '<span class="wd-wake">'+(Math.round(x.wake*10)/10)+' wk</span></div>';
   }).join("");
   var r=refFor(c.dob);
   var refLine=r?('Age guide for <b>'+r.label+'</b>: typically <b>'+r.lo+'–'+r.hi+'h</b> per 24h. '+esc(firstName(c.name))+' averaged <b>'+fmtHrs(avgTotal)+'h</b>.')
@@ -1279,18 +1570,43 @@ function openWeek(){
   $("weekReport").innerHTML=
     '<div class="week-card">'+
       '<div class="week-head"><div class="avatar">'+(initials||"?")+'</div><div><h3>'+esc(c.name)+' sleep summary</h3>'+
-        '<div class="sub">'+(age?"Age "+age+" · ":"")+range+' · '+n+' day'+(n>1?"s":"")+'</div></div></div>'+
+        '<div class="sub">'+(age?"Age "+age+" · ":"")+range+' · '+n+' day'+(n>1?"s":"")+' logged</div></div></div>'+
       '<div class="week-avg">'+wtile(fmtHrs(avgTotal)+"h","Avg / 24h")+wtile(fmtHrs(avgNight)+"h","Avg night")+
         wtile(Math.round(avgNaps*10)/10,"Avg naps")+wtile(Math.round(avgWake*10)/10,"Avg wakings")+'</div>'+
       '<div class="week-days">'+rowsHTML+'</div>'+
       '<div class="week-legend"><span><i style="width:12px;height:12px;border-radius:3px;display:inline-block;background:var(--night)"></i> Night sleep</span>'+
         '<span><i style="width:12px;height:12px;border-radius:3px;display:inline-block;background:var(--nap)"></i> Naps</span>'+
         (totFeeds?'<span>🍼 '+totFeeds+' feeds</span>':'')+'</div>'+
-      '<div class="week-ref">'+refLine+'</div>'+
+      '<div class="week-ref">'+(bucketed?'Each bar is a <b>weekly average per day</b>, so a long range stays readable.<br>':'')+refLine+'</div>'+
       '<div class="week-foot">🌙 Made with Sleep Log</div>'+
     '</div>';
   $("weekModal").classList.add("open");
 }
+function syncRangeUI(){
+  var row=$("rangeRow");if(!row)return;
+  [].forEach.call(row.querySelectorAll("[data-rp]"),function(b){
+    b.classList.toggle("on",b.getAttribute("data-rp")===reportRange.preset);
+  });
+  var cw=$("rangeCustom");if(cw)cw.hidden=(reportRange.preset!=="custom");
+  if(reportRange.preset==="custom"){
+    var b2=rangeBounds();
+    if(!$("rFrom").value)$("rFrom").value=b2.from;
+    if(!$("rTo").value)$("rTo").value=b2.to;
+  }
+}
+function setRange(preset){
+  reportRange.preset=preset;
+  if(preset==="custom"){
+    var b2=rangeBounds();
+    if(!$("rFrom").value)$("rFrom").value=b2.from;
+    if(!$("rTo").value)$("rTo").value=b2.to;
+    reportRange.from=$("rFrom").value;reportRange.to=$("rTo").value;
+  }
+  try{state.settings.reportPreset=preset;save();}catch(e){}
+  openWeek();syncRangeChrome();
+}
+/* the greeting chip and the rail stats both show the chosen range, so keep them in step */
+function syncRangeChrome(){try{renderClientBar();renderDashboard();}catch(e){}}
 function closeWeek(){$("weekModal").classList.remove("open");}
 function printWeek(){document.body.classList.add("print-week");window.print();setTimeout(function(){document.body.classList.remove("print-week");},500);}
 
@@ -1455,6 +1771,74 @@ function ringSVG(night,day){
     (dL>1?arc("#f59e0b",dL,nL+4):'')+
     '</svg>';
 }
+
+/* ---------------- desktop dashboard pieces ---------------- */
+/* one-line hero summary: the wide layout has no room for the full coach block */
+function heroSubHTML(c){
+  var p=state.pending[c.id];
+  if(p){
+    var st=new Date(p.start),hm=hmFromDate(st);
+    return '<div class="hero-sub">Since '+to12(toMin(hm))+' \u00b7 saving as '+(classifyType(hm)==="night"?"night sleep":"a nap")+'</div>';
+  }
+  var bits=[],lw=lastWakeFor(c.id);
+  if(lw){var am=Math.floor((Date.now()-lw.getTime())/60000);if(am>=0)bits.push("Awake "+fmtMinShort(am));}
+  var e=(state.entries[c.id]||[]).find(function(x){return x.date===sleepDayFor(new Date());});
+  if(e){
+    var naps=(e.periods||[]).filter(function(x){return x.type==="nap"&&x.start&&x.end;});
+    if(naps.length)bits.push("last nap "+fmtMinShort(periodDur(naps[naps.length-1])));
+  }
+  var pr=c.dob?predictNextSleep(c):null;
+  if(pr&&lw){
+    var mins=Math.round((lw.getTime()+pr.center*60000-Date.now())/60000);
+    bits.push(mins>0?("next "+(pr.isBed?"bedtime":"nap")+" in ~"+fmtMinShort(mins)):"sleepy window is open now");
+  }
+  if(!bits.length)return '<div class="hero-sub">Tap the moment '+esc(firstName(c.name))+' falls asleep, and the time fills in automatically.</div>';
+  return '<div class="hero-sub">'+bits.join(" \u00b7 ")+'</div>';
+}
+function railStatsHTML(){
+  var ents=rangeEntries();if(!ents.length)return "";
+  var agg=ents.map(metrics),n=agg.length;
+  var av=function(f){return agg.reduce(function(s,m){return s+f(m);},0)/n;};
+  var r1=function(x){return Math.round(x*10)/10;};
+  return '<div class="d-card"><div class="d-h">'+esc(rangeLabel())+'</div><div class="qs">'+
+    '<div><span>\uD83D\uDE34</span>Avg total sleep<span class="n">'+fmtHrs(av(function(m){return m.total;}))+'h</span></div>'+
+    '<div><span>\uD83C\uDF19</span>Avg night sleep<span class="n">'+fmtHrs(av(function(m){return m.night;}))+'h</span></div>'+
+    '<div><span>\u2600\uFE0F</span>Avg naps / day<span class="n">'+r1(av(function(m){return m.naps;}))+'</span></div>'+
+    '<div><span>\uD83D\uDC40</span>Avg night wakings<span class="n">'+r1(av(function(m){return m.wakings;}))+'</span></div>'+
+    '</div></div>';
+}
+function railExportHTML(){
+  return '<div class="d-card"><div class="d-h">Share with a consultant</div>'+
+    '<p class="d-p">Export any date range as a CSV or a printable report.</p>'+
+    '<div class="exp"><button type="button" data-drp="7">7 days</button>'+
+    '<button type="button" data-drp="30">30 days</button>'+
+    '<button type="button" class="p" data-drp="custom">Custom\u2026</button></div></div>';
+}
+function renderSideBaby(){
+  var el=$("sideBaby");if(!el)return;
+  var c=activeClient();
+  if(!c){
+    el.innerHTML='<button type="button" class="sb-add" id="sbAdd0">\uFF0B Add baby</button>';
+    var a0=$("sbAdd0");if(a0)a0.onclick=function(){openClientModal(false);};
+    return;
+  }
+  var ini=c.name.trim().split(/\s+/).map(function(w){return w[0];}).slice(0,2).join("").toUpperCase();
+  var along=ageStrLong(c.dob),meta=[];
+  if(along)meta.push(along);
+  meta.push(activeEntries().length+" days");
+  var sel="";
+  if(state.clients.length>1){
+    sel='<select class="sb-sel" id="sbSel" aria-label="Switch baby">'+state.clients.map(function(x){
+      return '<option value="'+x.id+'"'+(x.id===c.id?' selected':'')+'>'+esc(x.name)+'</option>';}).join("")+'</select>';
+  }
+  el.innerHTML='<div class="av">'+(ini||"?")+'</div>'+
+    '<div class="sb-t"><b>'+esc(c.name)+'</b><small>'+esc(meta.join(" \u00b7 "))+'</small></div>'+
+    '<button type="button" class="sb-b" id="sbEdit" title="Edit baby profile" aria-label="Edit baby profile">\u270E</button>'+
+    '<button type="button" class="sb-b" id="sbAdd" title="Add baby profile" aria-label="Add baby profile">\uFF0B</button>'+sel;
+  $("sbEdit").onclick=function(){openClientModal(true);};
+  $("sbAdd").onclick=function(){openClientModal(false);};
+  var s=$("sbSel");if(s)s.onchange=function(){state.activeClientId=this.value||null;save();render();};
+}
 function renderDashboard(){
   var el=$("dashCard"),sec=$("dashSection");if(!el)return;
   var c=activeClient();
@@ -1468,7 +1852,7 @@ function renderDashboard(){
   var diapers=e?((e.diapers||[]).length):0;
   var ft=e?feedTotal(e):null;
   var feedTile=feeds+(ft?' <small>· '+ft.amount+ft.unit+'</small>':'');
-  var qa='<div class="qa"><button id="qaFeed"><span class="e">🍼</span>Feed</button><button id="qaNappy"><span class="e">🧷</span>Nappy</button><button id="qaNote"><span class="e">📝</span>Note</button><button id="qaPast"><span class="e">🕓</span>Past</button></div>';
+  var qa='<div class="qa"><button id="qaFeed"><span class="e">🍼</span><span class="lb-s">Feed</span><span class="lb-l">Log feed</span></button><button id="qaNappy"><span class="e">🧷</span><span class="lb-s">Nappy</span><span class="lb-l">Log nappy</span></button><button id="qaNote"><span class="e">📝</span><span class="lb-s">Note</span><span class="lb-l">Add note</span></button><button id="qaPast"><span class="e">🕓</span><span class="lb-s">Past</span><span class="lb-l">Past sleep</span></button></div>';
   var awakeM=Math.max(0,1440-m.total);
   var ring='<div class="today-ring"><div class="ring">'+ringSVG(m.night,m.day)+
     '<div class="mid"><div class="rv">'+fmtDur(m.total)+'</div><div class="rk">Total</div></div></div>'+
@@ -1512,7 +1896,11 @@ function renderDashboard(){
   items.sort(function(a,b){return a.min-b.min;});
   var tl=items.length?('<div class="dash-tl"><h4>Today\'s timeline'+(e?' <span class="tl-hint">tap to edit</span>':'')+'</h4>'+items.map(function(it){return '<div class="tl-item"'+(it.kind?' data-kind="'+it.kind+'" data-time="'+it.time+'"':'')+'><span class="t">'+it.t+'</span><span class="ic '+(it.cls||"")+'">'+it.ic+'</span><span>'+it.label+'</span><span class="dur">'+it.dur+'</span></div>';}).join("")+'</div>')
     :'<div class="dash-empty">Nothing logged yet today. Tap “Fell asleep” when your baby goes down.</div>';
-  el.innerHTML=qa+ring+tiles+pred+renderPlanBlock(c,e)+tl;
+  el.innerHTML=qa+
+    '<div class="glance"><div class="glance-h">Today at a glance<button type="button" class="gh-plan" id="dPlanBtn">\uD83D\uDDD3 Plan</button></div>'+ring+tiles+tl+'</div>'+
+    '<div class="rail">'+pred+railStatsHTML()+railExportHTML()+renderPlanBlock(c,e)+'</div>';
+  var _dp=$("dPlanBtn");if(_dp)_dp.onclick=openPlan;
+  [].forEach.call(el.querySelectorAll("[data-drp]"),function(b){b.onclick=function(){setRange(b.getAttribute("data-drp"));};});
   var qf=$("qaFeed");if(qf)qf.onclick=openFeed;
   var qn=$("qaNappy");if(qn)qn.onclick=openNappy;
   var qnote=$("qaNote");if(qnote)qnote.onclick=logNote;
@@ -1698,6 +2086,7 @@ function renderQuickLog(){
       '<div class="qstate">'+esc(c.name)+' is asleep</div>'+
       '<div class="timer" id="qTimer">0h 00m</div>'+runHTML+
       '<div class="qsub">Since '+to12(toMin(hmFromDate(start)))+' · will save as <b>'+(type==="night"?"🌙 night sleep":"☀️ nap")+'</b></div>'+
+      heroSubHTML(c)+
       '<div class="pair"><button class="bigp wake" id="qWake"><span class="ic">☀️</span>Woke up now</button>'+
       '<button class="bigp alt" id="qFeed2"><span class="ic">🍼</span>Log feed</button></div>'+
       capHTML+
@@ -1719,6 +2108,7 @@ function renderQuickLog(){
     el.innerHTML='<div class="status"><span class="emoji">😊</span></div>'+
       '<div class="qstate">'+esc(c.name)+' is awake</div>'+
       '<div class="qsub">Tap the moment '+esc(firstName(c.name))+' falls asleep, and the time fills in automatically.</div>'+
+      heroSubHTML(c)+
       '<div class="pair"><button class="bigp sleep" id="qSleep"><span class="ic">😴</span>Fell asleep</button>'+
       '<button class="bigp alt" id="qPastQ"><span class="ic">🕓</span>Past sleep</button></div>'+
       coachHTML(c)+
@@ -2184,7 +2574,8 @@ function importJSON(file){
 }
 function exportCSV(){
   var c=activeClient();if(!c){toast("No baby selected");return;}
-  var entries=activeEntries().slice().reverse();
+  var entries=rangeEntries();
+  if(!entries.length){toast("No entries in "+rangeLabel().toLowerCase());return;}
   var rows=[["Date","Total sleep (h)","Night sleep (h)","Day sleep (h)","Naps","Night wakings","Night waking (h)","Onset latency (min)","Bedtime","Wake time","Feeds","Feed times","Sleep periods","Notes"]];
   entries.forEach(function(e){
     var m=metrics(e);
@@ -2193,7 +2584,7 @@ function exportCSV(){
     rows.push([e.date,fmtHrs(m.total),fmtHrs(m.night),fmtHrs(m.day),m.naps,m.wakings,fmtHrs(m.wakeTime),m.onset==null?"":m.onset,m.bed==null?"":to12(m.bed),m.wake==null?"":to12(m.wake),fd.length,fd.map(function(f){return f.time;}).join("; "),per,(e.notes||"").replace(/\n/g," ")]);
   });
   var csv=rows.map(function(r){return r.map(function(f){f=String(f);return /[",\n]/.test(f)?'"'+f.replace(/"/g,'""')+'"':f;}).join(",");}).join("\n");
-  saveFile("sleep-log-"+c.name.replace(/\s+/g,"_")+".csv",csv,"text/csv","CSV saved");
+  saveFile("sleep-log-"+c.name.replace(/\s+/g,"_")+"-"+rangeSlug()+".csv",csv,"text/csv","CSV saved · "+rangeLabel());
 }
 function doPrint(){
   var c=activeClient();
@@ -2213,6 +2604,7 @@ function applyTheme(){
   var t=(state.settings&&state.settings.theme)||"light";
   document.documentElement.setAttribute("data-theme",t);
   $("themeBtn").textContent=t==="dark"?"☀️":"🌙";
+  var _st=document.getElementById("sideThemeBtn");if(_st)_st.textContent=t==="dark"?"☀️":"🌙";
 }
 function toggleTheme(){
   state.settings.theme=(state.settings.theme==="dark")?"light":"dark";
@@ -2381,6 +2773,14 @@ $("fBedtime").addEventListener("input",updateLiveTotals);
 $("weekBtn").onclick=openWeek;
 $("weekCloseBtn").onclick=closeWeek;
 $("weekPrintBtn").onclick=printWeek;
+$("weekCsvBtn").onclick=exportCSV;
+[].forEach.call(document.querySelectorAll("#rangeRow [data-rp]"),function(b){
+  b.onclick=function(){setRange(b.getAttribute("data-rp"));};
+});
+["rFrom","rTo"].forEach(function(id){
+  var el=document.getElementById(id);
+  if(el)el.onchange=function(){reportRange.from=$("rFrom").value;reportRange.to=$("rTo").value;reportRange.preset="custom";openWeek();syncRangeChrome();};
+});
 $("weekModal").addEventListener("click",function(e){if(e.target===this)closeWeek();});
 $("msBtn").onclick=openMilestones;
 $("msCloseBtn").onclick=closeMilestones;
@@ -2414,6 +2814,9 @@ $("pStart").addEventListener("input",updatePDur);
 $("pEnd").addEventListener("input",updatePDur);
 $("themeBtn").onclick=toggleTheme;
 $("nightBtn").onclick=toggleNight;
+var _sideNight=document.getElementById("sideNightBtn");if(_sideNight)_sideNight.onclick=toggleNight;
+var _sideMore=document.getElementById("sideMoreBtn");if(_sideMore)_sideMore.onclick=function(){showTab("more");};
+var _sideTheme=document.getElementById("sideThemeBtn");if(_sideTheme)_sideTheme.onclick=toggleTheme;
 $("noiseBtn").onclick=openNoise;
 $("noiseCloseBtn").onclick=closeNoise;
 $("noiseStopBtn").onclick=function(){stopNoise();var s=$("noiseStatus");if(s)s.textContent="Stopped";};
@@ -2438,6 +2841,7 @@ $("longModal").onclick=function(ev){if(ev.target===$("longModal"))closeLongSleep
 document.addEventListener("keydown",function(e){if(e.key==="Escape"){closeLongSleep();closeClientModal();closeWeek();closeNoise();closeMilestones();closePast();closePlan();closeFeed();closeNappy();}});
 
 /* ---------------- init ---------------- */
+try{if(state.settings.reportPreset)reportRange.preset=state.settings.reportPreset;}catch(e){}
 applyTheme();
 applyNight();
 applyCoffee();
